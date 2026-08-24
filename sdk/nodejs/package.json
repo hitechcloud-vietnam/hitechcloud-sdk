@@ -1,0 +1,27 @@
+{
+  "name": "hitechcloud-sdk",
+  "version": "1.0.0",
+  "description": "Official Node.js SDK for HiTechCloud UserAPI",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/",
+    "build": "tsc"
+  },
+  "keywords": ["hitechcloud", "api", "sdk", "cloud", "vps", "domain"],
+  "author": "HiTechCloud <support@hitechcloud.vn>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.50.0",
+    "typescript": "^5.2.0",
+    "@types/node": "^20.8.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

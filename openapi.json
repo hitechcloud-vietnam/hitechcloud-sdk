@@ -1,0 +1,2006 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HiTechCloud User API",
+    "description": "Official API for managing HiTechCloud accounts: services, domains, DNS, billing, support tickets, SSL certificates, and more. 348 endpoints across 38 groups.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "HiTechCloud Support",
+      "email": "support@hitechcloud.vn",
+      "url": "https://docs.hitechcloud.vn"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.hitechcloud.vn",
+      "description": "Production"
+    },
+    {
+      "url": "https://ote.hitechcloud.vn",
+      "description": "OTE (Sandbox) - Test environment with sample data"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": ["Account Authentication"],
+        "summary": "Login",
+        "description": "Authenticate user and obtain access token",
+        "operationId": "login",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": { "type": "string", "description": "Email address" },
+                  "password": { "type": "string", "description": "Account password" }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string" },
+                    "refresh_token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Invalid credentials" }
+        }
+      }
+    },
+    "/api/logout": {
+      "post": {
+        "tags": ["Account Authentication"],
+        "summary": "Logout",
+        "description": "Invalidate current access token",
+        "operationId": "logout",
+        "responses": {
+          "200": { "description": "Logged out successfully" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/api/token": {
+      "post": {
+        "tags": ["Account Authentication"],
+        "summary": "Refresh Token",
+        "description": "Generate new authorization token using refresh token",
+        "operationId": "refreshToken",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["refresh_token"],
+                "properties": {
+                  "refresh_token": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token refreshed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string" },
+                    "refresh_token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Invalid refresh token" }
+        }
+      }
+    },
+    "/api/revoke": {
+      "post": {
+        "tags": ["Account Authentication"],
+        "summary": "Revoke Token",
+        "description": "Invalidate authorization and refresh token",
+        "operationId": "revokeToken",
+        "responses": {
+          "200": { "description": "Token revoked" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/api/passwordreset": {
+      "post": {
+        "tags": ["Account Authentication"],
+        "summary": "Password Reset",
+        "description": "Request password reset email",
+        "operationId": "passwordReset",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Reset email sent" },
+          "404": { "description": "Email not found" }
+        }
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "tags": ["Account Authentication"],
+        "summary": "Sign Up",
+        "description": "Create new account",
+        "operationId": "signUp",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 },
+                  "first_name": { "type": "string" },
+                  "last_name": { "type": "string" },
+                  "company": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "address": { "type": "string" },
+                  "city": { "type": "string" },
+                  "state": { "type": "string" },
+                  "postcode": { "type": "string" },
+                  "country": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Account created" },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/details": {
+      "get": {
+        "tags": ["User Profile"],
+        "summary": "User Details",
+        "description": "Return registration details for my account",
+        "operationId": "getUserDetails",
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserDetails" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["User Profile"],
+        "summary": "Update User Details",
+        "description": "Update registration details",
+        "operationId": "updateUserDetails",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserDetailsUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Updated successfully" },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/logs": {
+      "get": {
+        "tags": ["User Profile"],
+        "summary": "User Logs",
+        "description": "Returns logs from history",
+        "operationId": "getUserLogs",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "List of logs" }
+        }
+      }
+    },
+    "/api/balance": {
+      "get": {
+        "tags": ["Billing & Contracts"],
+        "summary": "Account Balance",
+        "description": "Get current account balance, unpaid invoices total, and account credit",
+        "operationId": "getAccountBalance",
+        "responses": {
+          "200": {
+            "description": "Account balance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "balance": { "type": "number" },
+                    "credit": { "type": "number" },
+                    "currency": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/invoice": {
+      "get": {
+        "tags": ["Billing & Contracts"],
+        "summary": "List Invoices",
+        "description": "List all invoices under my account",
+        "operationId": "listInvoices",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["all", "paid", "unpaid", "overdue", "cancelled"] } }
+        ],
+        "responses": {
+          "200": { "description": "List of invoices" }
+        }
+      }
+    },
+    "/api/invoice/{id}": {
+      "get": {
+        "tags": ["Billing & Contracts"],
+        "summary": "Invoice Details",
+        "description": "Get invoice details",
+        "operationId": "getInvoiceDetails",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Invoice details" },
+          "404": { "description": "Invoice not found" }
+        }
+      }
+    },
+    "/api/invoice/{id}/credit": {
+      "post": {
+        "tags": ["Billing & Contracts"],
+        "summary": "Apply Credit",
+        "description": "Apply account credit to invoice",
+        "operationId": "applyCredit",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Credit applied" },
+          "404": { "description": "Invoice not found" }
+        }
+      }
+    },
+    "/api/payment": {
+      "get": {
+        "tags": ["Billing & Contracts"],
+        "summary": "Payment Methods",
+        "description": "List available payment methods",
+        "operationId": "getPaymentMethods",
+        "responses": {
+          "200": { "description": "Payment methods" }
+        }
+      }
+    },
+    "/api/payment/fees": {
+      "get": {
+        "tags": ["Billing & Contracts"],
+        "summary": "Payment Methods Fees",
+        "description": "List available payment methods with fees",
+        "operationId": "getPaymentMethodFees",
+        "responses": {
+          "200": { "description": "Payment methods with fees" }
+        }
+      }
+    },
+    "/api/service": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "List Services",
+        "description": "List all services under your account",
+        "operationId": "listServices",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "status", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "List of services" }
+        }
+      }
+    },
+    "/api/service/{id}": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Service Details",
+        "description": "Return details for service",
+        "operationId": "getServiceDetails",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Service details" },
+          "404": { "description": "Service not found" }
+        }
+      }
+    },
+    "/api/service/{id}/methods": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "List Service Methods",
+        "description": "List methods available for service",
+        "operationId": "listServiceMethods",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Available methods" }
+        }
+      }
+    },
+    "/api/service/{id}/cancel": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Cancel Service",
+        "description": "Request service cancellation",
+        "operationId": "cancelService",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cancellation requested" },
+          "404": { "description": "Service not found" }
+        }
+      }
+    },
+    "/api/service/{id}/label": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Service Label",
+        "description": "Show current service label",
+        "operationId": "getServiceLabel",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Service label" }
+        }
+      },
+      "post": {
+        "tags": ["Services"],
+        "summary": "Change Service Label",
+        "description": "Set new custom label",
+        "operationId": "changeServiceLabel",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["label"],
+                "properties": {
+                  "label": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Label updated" }
+        }
+      }
+    },
+    "/api/service/{id}/renew": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Manual Service Renew",
+        "description": "Generate an invoice to renew the service",
+        "operationId": "renewService",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Renewal invoice generated" }
+        }
+      }
+    },
+    "/api/service/{id}/cycle": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "List Billing Cycle",
+        "description": "Get recurring billing cycle options",
+        "operationId": "listBillingCycle",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Billing cycle options" }
+        }
+      },
+      "post": {
+        "tags": ["Services"],
+        "summary": "Change Billing Cycle",
+        "description": "Change recurring billing cycle for the service",
+        "operationId": "changeBillingCycle",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["cycle_id"],
+                "properties": {
+                  "cycle_id": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Billing cycle changed" }
+        }
+      }
+    },
+    "/api/domain": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "List Domains",
+        "description": "List domains under your account",
+        "operationId": "listDomains",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "List of domains" }
+        }
+      }
+    },
+    "/api/domain/{id}": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Domain Details",
+        "description": "Get domain details",
+        "operationId": "getDomainDetails",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Domain details" },
+          "404": { "description": "Domain not found" }
+        }
+      }
+    },
+    "/api/domain/name/{name}": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Domain Details by Name",
+        "description": "Get domain details by name",
+        "operationId": "getDomainDetailsByName",
+        "parameters": [
+          { "name": "name", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Domain details" },
+          "404": { "description": "Domain not found" }
+        }
+      }
+    },
+    "/api/domain/{id}/ns": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Get Domain Nameservers",
+        "operationId": "getDomainNameservers",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Nameservers" }
+        }
+      },
+      "put": {
+        "tags": ["Domains"],
+        "summary": "Update Domain Nameservers",
+        "operationId": "updateDomainNameservers",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ns1": { "type": "string" },
+                  "ns2": { "type": "string" },
+                  "ns3": { "type": "string" },
+                  "ns4": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Nameservers updated" }
+        }
+      }
+    },
+    "/api/domain/{id}/epp": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Get Domain EPP Code",
+        "operationId": "getDomainEppCode",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "EPP code" }
+        }
+      }
+    },
+    "/api/domain/{id}/sync": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Synchronize Domain",
+        "operationId": "syncDomain",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Domain synchronized" }
+        }
+      }
+    },
+    "/api/domain/{id}/reglock": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Get Domain Lock",
+        "operationId": "getDomainLock",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Domain lock status" }
+        }
+      },
+      "put": {
+        "tags": ["Domains"],
+        "summary": "Update Domain Lock",
+        "operationId": "updateDomainLock",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reglock": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Lock updated" }
+        }
+      }
+    },
+    "/api/domain/{id}/idprotection": {
+      "put": {
+        "tags": ["Domains"],
+        "summary": "Update Domain ID Protection",
+        "operationId": "updateDomainIdProtection",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idprotection": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "ID protection updated" }
+        }
+      }
+    },
+    "/api/domain/{id}/contact": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Get Domain Contact Info",
+        "operationId": "getDomainContactInfo",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Contact info" }
+        }
+      },
+      "put": {
+        "tags": ["Domains"],
+        "summary": "Update Domain Contact Info",
+        "operationId": "updateDomainContactInfo",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "registrant": { "type": "integer" },
+                  "tech": { "type": "integer" },
+                  "billing": { "type": "integer" },
+                  "admin": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Contact info updated" }
+        }
+      }
+    },
+    "/api/domain/{id}/email/forwarding": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Get Email Forwarding",
+        "operationId": "getEmailForwarding",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Email forwarding settings" }
+        }
+      },
+      "put": {
+        "tags": ["Domains"],
+        "summary": "Update Email Forwarding",
+        "operationId": "updateEmailForwarding",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prefix": { "type": "string" },
+                        "forward_to": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Forwarding updated" }
+        }
+      }
+    },
+    "/api/whois/{domain}": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Whois Domain",
+        "operationId": "whoisDomain",
+        "parameters": [
+          { "name": "domain", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "WHOIS data" }
+        }
+      }
+    },
+    "/api/whoislookup/{domain}": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Perform WHOIS Lookup",
+        "operationId": "whoisLookup",
+        "parameters": [
+          { "name": "domain", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "WHOIS lookup result" }
+        }
+      }
+    },
+    "/api/domain/availability/{domain}": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Domain Availability",
+        "operationId": "checkDomainAvailability",
+        "parameters": [
+          { "name": "domain", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Availability status" }
+        }
+      }
+    },
+    "/api/domain/order": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "Available TLDs",
+        "operationId": "getAvailableTlds",
+        "responses": {
+          "200": { "description": "List of TLDs" }
+        }
+      },
+      "post": {
+        "tags": ["Domains"],
+        "summary": "Order New Domain",
+        "operationId": "orderNewDomain",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["domain"],
+                "properties": {
+                  "domain": { "type": "string" },
+                  "years": { "type": "integer", "default": 1 },
+                  "nameservers": { "type": "array", "items": { "type": "string" } },
+                  "registrant_id": { "type": "integer" },
+                  "tech_id": { "type": "integer" },
+                  "billing_id": { "type": "integer" },
+                  "admin_id": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Domain ordered" },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/domain/{id}/renew": {
+      "post": {
+        "tags": ["Domains"],
+        "summary": "Renew Domain",
+        "operationId": "renewDomain",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "years": { "type": "integer", "default": 1 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Domain renewed" }
+        }
+      }
+    },
+    "/api/domain/{id}/dns": {
+      "get": {
+        "tags": ["DNS Manage"],
+        "summary": "DNS Records",
+        "operationId": "getDnsRecords",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNS records" }
+        }
+      },
+      "post": {
+        "tags": ["DNS Manage"],
+        "summary": "Create DNS Records",
+        "operationId": "createDnsRecord",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "type", "content"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string", "enum": ["A", "AAAA", "CNAME", "MX", "TXT", "SRV", "NS", "CAA"] },
+                  "content": { "type": "string" },
+                  "ttl": { "type": "integer", "default": 3600 },
+                  "priority": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "DNS record created" }
+        }
+      }
+    },
+    "/api/domain/{id}/dns/{index}": {
+      "put": {
+        "tags": ["DNS Manage"],
+        "summary": "Update DNS Records",
+        "operationId": "updateDnsRecord",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "index", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "content": { "type": "string" },
+                  "ttl": { "type": "integer" },
+                  "priority": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "DNS record updated" }
+        }
+      },
+      "delete": {
+        "tags": ["DNS Manage"],
+        "summary": "Remove DNS Records",
+        "operationId": "removeDnsRecord",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "index", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNS record removed" }
+        }
+      }
+    },
+    "/api/domain/{id}/dns/types": {
+      "get": {
+        "tags": ["DNS Manage"],
+        "summary": "DNS Records Types",
+        "operationId": "getDnsRecordTypes",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Supported record types" }
+        }
+      }
+    },
+    "/api/domain/{id}/dnssec/flags": {
+      "get": {
+        "tags": ["DNS Manage"],
+        "summary": "Get Available DNSSEC Flags",
+        "operationId": "getDnssecFlags",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNSSEC flags" }
+        }
+      }
+    },
+    "/api/domain/{id}/dnssec": {
+      "get": {
+        "tags": ["DNS Manage"],
+        "summary": "Get DNSSEC Records",
+        "operationId": "getDnssecRecords",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNSSEC records" }
+        }
+      },
+      "post": {
+        "tags": ["DNS Manage"],
+        "summary": "Create DNSSEC Record",
+        "operationId": "createDnssecRecord",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNSSEC record created" }
+        }
+      },
+      "delete": {
+        "tags": ["DNS Manage"],
+        "summary": "Remove DNSSEC Record",
+        "operationId": "removeDnssecRecord",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNSSEC record removed" }
+        }
+      }
+    },
+    "/api/domain/{id}/reg": {
+      "post": {
+        "tags": ["DNS Manage"],
+        "summary": "Register Domain Nameservers",
+        "operationId": "registerDomainNameservers",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nameserver", "ip"],
+                "properties": {
+                  "nameserver": { "type": "string" },
+                  "ip": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Nameserver registered" }
+        }
+      }
+    },
+    "/api/certificate": {
+      "get": {
+        "tags": ["SSL Certificates"],
+        "summary": "List SSL Certificates",
+        "operationId": "listCertificates",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "List of certificates" }
+        }
+      }
+    },
+    "/api/certificate/{id}": {
+      "get": {
+        "tags": ["SSL Certificates"],
+        "summary": "Certificate Details",
+        "operationId": "getCertificateDetails",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Certificate details" }
+        }
+      }
+    },
+    "/api/certificate/{id}/crt": {
+      "get": {
+        "tags": ["SSL Certificates"],
+        "summary": "Download Certificate",
+        "operationId": "downloadCertificate",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "X.509 certificate data" }
+        }
+      }
+    },
+    "/api/certificate/order": {
+      "get": {
+        "tags": ["SSL Certificates"],
+        "summary": "List Available Certificates",
+        "operationId": "listAvailableCertificates",
+        "responses": {
+          "200": { "description": "Available certificates" }
+        }
+      },
+      "post": {
+        "tags": ["SSL Certificates"],
+        "summary": "Order New Certificate",
+        "operationId": "orderCertificate",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["product_id", "csr"],
+                "properties": {
+                  "product_id": { "type": "integer" },
+                  "csr": { "type": "string" },
+                  "server_software_id": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Certificate ordered" }
+        }
+      }
+    },
+    "/api/tickets": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "List Tickets",
+        "operationId": "listTickets",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "List of tickets" }
+        }
+      },
+      "post": {
+        "tags": ["Support"],
+        "summary": "Create Ticket",
+        "operationId": "createTicket",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["subject", "message", "department_id"],
+                "properties": {
+                  "subject": { "type": "string" },
+                  "message": { "type": "string" },
+                  "department_id": { "type": "integer" },
+                  "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "service_id": { "type": "integer" },
+                  "attachments": { "type": "array", "items": { "type": "string", "format": "binary" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ticket created" }
+        }
+      }
+    },
+    "/api/tickets/{number}": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "Ticket Details",
+        "operationId": "getTicketDetails",
+        "parameters": [
+          { "name": "number", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Ticket details with replies" }
+        }
+      },
+      "post": {
+        "tags": ["Support"],
+        "summary": "Create Reply",
+        "operationId": "createTicketReply",
+        "parameters": [
+          { "name": "number", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["message"],
+                "properties": {
+                  "message": { "type": "string" },
+                  "attachments": { "type": "array", "items": { "type": "string", "format": "binary" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Reply created" }
+        }
+      }
+    },
+    "/api/tickets/{number}/open": {
+      "put": {
+        "tags": ["Support"],
+        "summary": "Re-open Ticket",
+        "operationId": "reopenTicket",
+        "parameters": [
+          { "name": "number", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Ticket re-opened" }
+        }
+      }
+    },
+    "/api/tickets/{number}/close": {
+      "put": {
+        "tags": ["Support"],
+        "summary": "Close Ticket",
+        "operationId": "closeTicket",
+        "parameters": [
+          { "name": "number", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Ticket closed" }
+        }
+      }
+    },
+    "/api/ticket/departments": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "List Ticket Departments",
+        "operationId": "listTicketDepartments",
+        "responses": {
+          "200": { "description": "Departments list" }
+        }
+      }
+    },
+    "/api/ticket/attachment/{file}": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "Ticket Attachment",
+        "operationId": "getTicketAttachment",
+        "parameters": [
+          { "name": "file", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Attachment file" }
+        }
+      }
+    },
+    "/api/news": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "List News",
+        "operationId": "listNews",
+        "responses": {
+          "200": { "description": "News list" }
+        }
+      }
+    },
+    "/api/news/{news_id}": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "Get News Item",
+        "operationId": "getNewsItem",
+        "parameters": [
+          { "name": "news_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "News item details" }
+        }
+      }
+    },
+    "/api/knowledgebase": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "List Knowledgebase Categories",
+        "operationId": "listKnowledgebaseCategories",
+        "responses": {
+          "200": { "description": "Categories list" }
+        }
+      }
+    },
+    "/api/knowledgebase/{category_id}": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "Get Knowledgebase Category",
+        "operationId": "getKnowledgebaseCategory",
+        "parameters": [
+          { "name": "category_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Category with articles" }
+        }
+      }
+    },
+    "/api/knowledgebase/article/{article_id}": {
+      "get": {
+        "tags": ["Support"],
+        "summary": "Get Knowledgebase Article",
+        "operationId": "getKnowledgebaseArticle",
+        "parameters": [
+          { "name": "article_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Article details" }
+        }
+      }
+    },
+    "/api/contact": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "List Contacts",
+        "operationId": "listContacts",
+        "responses": {
+          "200": { "description": "Contacts list" }
+        }
+      },
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Add Contact",
+        "operationId": "addContact",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ContactInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Contact created" }
+        }
+      }
+    },
+    "/api/contact/privileges": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Contact Privileges",
+        "operationId": "getContactPrivileges",
+        "responses": {
+          "200": { "description": "Available privileges" }
+        }
+      }
+    },
+    "/api/contact/{id}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get Contact Details",
+        "operationId": "getContactDetails",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Contact details" }
+        }
+      },
+      "put": {
+        "tags": ["Contacts"],
+        "summary": "Edit Contact",
+        "operationId": "editContact",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ContactInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Contact updated" }
+        }
+      }
+    },
+    "/api/category": {
+      "get": {
+        "tags": ["Cart"],
+        "summary": "List Product Categories",
+        "operationId": "listProductCategories",
+        "responses": {
+          "200": { "description": "Categories list" }
+        }
+      }
+    },
+    "/api/category/{category_id}/product": {
+      "get": {
+        "tags": ["Cart"],
+        "summary": "List Products in Category",
+        "operationId": "listProductsInCategory",
+        "parameters": [
+          { "name": "category_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Products list" }
+        }
+      }
+    },
+    "/api/order/{product_id}": {
+      "get": {
+        "tags": ["Cart"],
+        "summary": "Get Product Configuration",
+        "operationId": "getProductConfiguration",
+        "parameters": [
+          { "name": "product_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Product configuration" }
+        }
+      },
+      "post": {
+        "tags": ["Cart"],
+        "summary": "Order New Service",
+        "operationId": "orderNewService",
+        "parameters": [
+          { "name": "product_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": { "type": "string" },
+                  "cycle": { "type": "string" },
+                  "configoptions": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order placed" }
+        }
+      }
+    },
+    "/api/order": {
+      "post": {
+        "tags": ["Cart"],
+        "summary": "Order Multiple Services",
+        "operationId": "orderMultipleServices",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "product_id": { "type": "integer" },
+                        "domain": { "type": "string" },
+                        "cycle": { "type": "string" }
+                      }
+                    }
+                  },
+                  "payment_method": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order placed" }
+        }
+      }
+    },
+    "/api/quote": {
+      "post": {
+        "tags": ["Cart"],
+        "summary": "Get Order Quote",
+        "operationId": "getOrderQuote",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "product_id": { "type": "integer" },
+                        "domain": { "type": "string" },
+                        "cycle": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Quote details" }
+        }
+      }
+    },
+    "/api/dns": {
+      "get": {
+        "tags": ["DNS"],
+        "summary": "List DNS",
+        "operationId": "listDns",
+        "responses": {
+          "200": { "description": "DNS zones list" }
+        }
+      }
+    },
+    "/api/service/{service_id}/dns": {
+      "get": {
+        "tags": ["DNS"],
+        "summary": "List DNS for Service",
+        "operationId": "listDnsForService",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNS zones for service" }
+        }
+      },
+      "post": {
+        "tags": ["DNS"],
+        "summary": "Add DNS Zone",
+        "operationId": "addDnsZone",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["domain"],
+                "properties": {
+                  "domain": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "DNS zone created" }
+        }
+      }
+    },
+    "/api/service/{service_id}/dns/{zone_id}": {
+      "get": {
+        "tags": ["DNS"],
+        "summary": "Get DNS Details",
+        "operationId": "getDnsDetails",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "zone_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNS zone details" }
+        }
+      },
+      "delete": {
+        "tags": ["DNS"],
+        "summary": "Remove DNS Zone",
+        "operationId": "removeDnsZone",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "zone_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNS zone removed" }
+        }
+      }
+    },
+    "/api/service/{service_id}/dns/{zone_id}/records": {
+      "post": {
+        "tags": ["DNS"],
+        "summary": "Add DNS Record",
+        "operationId": "addDnsRecord",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "zone_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "type", "content"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "content": { "type": "string" },
+                  "ttl": { "type": "integer" },
+                  "priority": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "DNS record added" }
+        }
+      }
+    },
+    "/api/service/{service_id}/dns/{zone_id}/records/{record_id}": {
+      "put": {
+        "tags": ["DNS"],
+        "summary": "Edit DNS Record",
+        "operationId": "editDnsRecord",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "zone_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "record_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "content": { "type": "string" },
+                  "ttl": { "type": "integer" },
+                  "priority": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "DNS record updated" }
+        }
+      },
+      "delete": {
+        "tags": ["DNS"],
+        "summary": "Remove DNS Record",
+        "operationId": "removeDnsRecord",
+        "parameters": [
+          { "name": "service_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "zone_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "record_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "DNS record removed" }
+        }
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "List All Notifications",
+        "operationId": "listNotifications",
+        "responses": {
+          "200": { "description": "Notifications list" }
+        }
+      }
+    },
+    "/api/notifications/new": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "List New Notifications",
+        "operationId": "listNewNotifications",
+        "responses": {
+          "200": { "description": "New notifications" }
+        }
+      }
+    },
+    "/api/notifications/{id}/ack": {
+      "put": {
+        "tags": ["Notifications"],
+        "summary": "Acknowledge Notification",
+        "operationId": "acknowledgeNotification",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Notification acknowledged" }
+        }
+      }
+    },
+    "/api/affiliates/summary": {
+      "get": {
+        "tags": ["Affiliate"],
+        "summary": "Get Affiliate Summary",
+        "operationId": "getAffiliateSummary",
+        "responses": {
+          "200": { "description": "Affiliate summary" }
+        }
+      }
+    },
+    "/api/affiliates/campaigns": {
+      "get": {
+        "tags": ["Affiliate"],
+        "summary": "Get Affiliate Campaigns",
+        "operationId": "getAffiliateCampaigns",
+        "responses": {
+          "200": { "description": "Campaigns list" }
+        }
+      }
+    },
+    "/api/affiliates/commissions": {
+      "get": {
+        "tags": ["Affiliate"],
+        "summary": "Get Affiliate Commissions",
+        "operationId": "getAffiliateCommissions",
+        "responses": {
+          "200": { "description": "Commissions list" }
+        }
+      }
+    },
+    "/api/affiliates/payouts": {
+      "get": {
+        "tags": ["Affiliate"],
+        "summary": "Get Affiliate Payouts",
+        "operationId": "getAffiliatePayouts",
+        "responses": {
+          "200": { "description": "Payouts list" }
+        }
+      }
+    },
+    "/api/affiliates/vouchers": {
+      "get": {
+        "tags": ["Affiliate"],
+        "summary": "Get Affiliate Vouchers",
+        "operationId": "getAffiliateVouchers",
+        "responses": {
+          "200": { "description": "Vouchers list" }
+        }
+      }
+    },
+    "/api/affiliates/commissionplans": {
+      "get": {
+        "tags": ["Affiliate"],
+        "summary": "Get Affiliate Commission Plans",
+        "operationId": "getAffiliateCommissionPlans",
+        "responses": {
+          "200": { "description": "Commission plans" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/reboot": {
+      "put": {
+        "tags": ["Cloud GPU"],
+        "summary": "Reboot VM",
+        "operationId": "rebootVm",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "VM rebooted" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/stop": {
+      "put": {
+        "tags": ["Cloud GPU"],
+        "summary": "Stop VM",
+        "operationId": "stopVm",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "VM stopped" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/start": {
+      "put": {
+        "tags": ["Cloud GPU"],
+        "summary": "Start VM",
+        "operationId": "startVm",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "VM started" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/firewall": {
+      "get": {
+        "tags": ["Cloud GPU"],
+        "summary": "Get Firewall Rules",
+        "operationId": "getFirewallRules",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Firewall rules" }
+        }
+      },
+      "post": {
+        "tags": ["Cloud GPU"],
+        "summary": "Add Firewall Rules",
+        "operationId": "addFirewallRules",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "action": { "type": "string", "enum": ["ACCEPT", "DROP"] },
+                        "protocol": { "type": "string" },
+                        "source": { "type": "string" },
+                        "destination": { "type": "string" },
+                        "port": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Rules added" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/firewall/{position}": {
+      "delete": {
+        "tags": ["Cloud GPU"],
+        "summary": "Remove Firewall Rules",
+        "operationId": "removeFirewallRules",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "position", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Rule removed" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/{vmid}/suspend": {
+      "post": {
+        "tags": ["Virtualizor Services"],
+        "summary": "Suspend VM",
+        "operationId": "suspendVm",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "vmid", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "VM suspended" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/{vmid}/unsuspend": {
+      "post": {
+        "tags": ["Virtualizor Services"],
+        "summary": "Unsuspend VM",
+        "operationId": "unsuspendVm",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "vmid", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "VM unsuspended" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/{vmid}/rebuild": {
+      "get": {
+        "tags": ["Virtualizor Services"],
+        "summary": "List Rebuild Templates",
+        "operationId": "listRebuildTemplates",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "vmid", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Templates list" }
+        }
+      }
+    },
+    "/api/service/{id}/vms/{vmid}/addsshkey": {
+      "post": {
+        "tags": ["Virtualizor Services"],
+        "summary": "Change SSH Key",
+        "operationId": "changeSshKey",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "vmid", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ssh_key"],
+                "properties": {
+                  "ssh_key": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "SSH key changed" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Obtain token via POST /api/login"
+      }
+    },
+    "schemas": {
+      "UserDetails": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "email": { "type": "string", "format": "email" },
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "company": { "type": "string" },
+          "phone": { "type": "string" },
+          "address": { "type": "string" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "postcode": { "type": "string" },
+          "country": { "type": "string" },
+          "currency": { "type": "string" },
+          "language": { "type": "string" }
+        }
+      },
+      "UserDetailsUpdate": {
+        "type": "object",
+        "properties": {
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "company": { "type": "string" },
+          "phone": { "type": "string" },
+          "address": { "type": "string" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "postcode": { "type": "string" },
+          "country": { "type": "string" },
+          "language": { "type": "string" }
+        }
+      },
+      "ContactInput": {
+        "type": "object",
+        "properties": {
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "company": { "type": "string" },
+          "phone": { "type": "string" },
+          "address": { "type": "string" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "postcode": { "type": "string" },
+          "country": { "type": "string" },
+          "password": { "type": "string" },
+          "privileges": { "type": "object" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
