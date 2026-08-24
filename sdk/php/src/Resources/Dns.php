@@ -4,43 +4,68 @@ namespace HiTechCloud\SDK\Resources;
 
 class Dns extends BaseResource
 {
-    public function list(): array
+    /**
+     * List DNS zones
+     */
+    public function listZones(array $params = []): array
     {
-        return $this->http->get('/api/dns');
+        return $this->http->get('/api/dns', $params);
     }
 
-    public function listForService(int $serviceId): array
+    /**
+     * Create DNS zone
+     */
+    public function createZone(int $serviceId, array $data): array
     {
-        return $this->http->get("/api/service/{$serviceId}/dns");
+        return $this->http->post('/api/service/' . $serviceId . '/dns', $data);
     }
 
-    public function addZone(int $serviceId, string $domain): array
+    /**
+     * Get service DNS zones
+     */
+    public function getZones(int $serviceId): array
     {
-        return $this->http->post("/api/service/{$serviceId}/dns", ['domain' => $domain]);
+        return $this->http->get('/api/service/' . $serviceId . '/dns');
     }
 
+    /**
+     * Get DNS zone
+     */
     public function getZone(int $serviceId, int $zoneId): array
     {
-        return $this->http->get("/api/service/{$serviceId}/dns/{$zoneId}");
+        return $this->http->get('/api/service/' . $serviceId . '/dns/' . $zoneId);
     }
 
+    /**
+     * Delete DNS zone
+     */
     public function deleteZone(int $serviceId, int $zoneId): array
     {
-        return $this->http->delete("/api/service/{$serviceId}/dns/{$zoneId}");
+        return $this->http->delete('/api/service/' . $serviceId . '/dns/' . $zoneId);
     }
 
-    public function addRecord(int $serviceId, int $zoneId, array $data): array
+    /**
+     * Create record
+     */
+    public function createRecord(int $serviceId, int $zoneId, array $data): array
     {
-        return $this->http->post("/api/service/{$serviceId}/dns/{$zoneId}/records", $data);
+        return $this->http->post('/api/service/' . $serviceId . '/dns/' . $zoneId . '/records', $data);
     }
 
-    public function editRecord(int $serviceId, int $zoneId, int $recordId, array $data): array
+    /**
+     * Update record
+     */
+    public function updateRecord(int $serviceId, int $zoneId, int $recordId, array $data): array
     {
-        return $this->http->put("/api/service/{$serviceId}/dns/{$zoneId}/records/{$recordId}", $data);
+        return $this->http->put('/api/service/' . $serviceId . '/dns/' . $zoneId . '/records/' . $recordId, $data);
     }
 
+    /**
+     * Delete record
+     */
     public function deleteRecord(int $serviceId, int $zoneId, int $recordId): array
     {
-        return $this->http->delete("/api/service/{$serviceId}/dns/{$zoneId}/records/{$recordId}");
+        return $this->http->delete('/api/service/' . $serviceId . '/dns/' . $zoneId . '/records/' . $recordId);
     }
+
 }

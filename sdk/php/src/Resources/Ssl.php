@@ -4,33 +4,52 @@ namespace HiTechCloud\SDK\Resources;
 
 class Ssl extends BaseResource
 {
+    /**
+     * List certificates
+     */
     public function list(array $params = []): array
     {
         return $this->http->get('/api/certificate', $params);
     }
 
-    public function get(int $certificateId): array
+    /**
+     * Get certificate
+     */
+    public function get(int $certId): array
     {
-        return $this->http->get("/api/certificate/{$certificateId}");
+        return $this->http->get('/api/certificate/' . $serviceId);
     }
 
-    public function download(int $certificateId): array
+    /**
+     * Get certificate CRT
+     */
+    public function getCrt(int $certId): array
     {
-        return $this->http->get("/api/certificate/{$certificateId}/crt");
+        return $this->http->get('/api/certificate/' . $serviceId . '/crt');
     }
 
-    public function listAvailable(): array
+    /**
+     * List SSL orders
+     */
+    public function listOrders(array $params = []): array
     {
-        return $this->http->get('/api/certificate/order');
+        return $this->http->get('/api/certificate/order', $params);
     }
 
-    public function order(array $data): array
+    /**
+     * Create SSL order
+     */
+    public function createOrder(array $data): array
     {
         return $this->http->post('/api/certificate/order', $data);
     }
 
-    public function listServerSoftware(int $productId): array
+    /**
+     * Get order software
+     */
+    public function getOrderSoftware(int $productId): array
     {
-        return $this->http->get("/api/certificate/order/{$productId}/software");
+        return $this->http->get('/api/certificate/order/' . $productId . '/software');
     }
+
 }

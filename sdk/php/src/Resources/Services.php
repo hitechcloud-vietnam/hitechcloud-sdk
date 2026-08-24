@@ -4,50 +4,76 @@ namespace HiTechCloud\SDK\Resources;
 
 class Services extends BaseResource
 {
+    /**
+     * List services
+     */
     public function list(array $params = []): array
     {
         return $this->http->get('/api/service', $params);
     }
 
+    /**
+     * Get service
+     */
     public function get(int $serviceId): array
     {
-        return $this->http->get("/api/service/{$serviceId}");
+        return $this->http->get('/api/service/' . $serviceId);
     }
 
-    public function listMethods(): array
+    /**
+     * Get service methods
+     */
+    public function getMethods(int $serviceId): array
     {
-        return $this->http->get('/api/service/methods');
+        return $this->http->get('/api/service/' . $serviceId . '/methods');
     }
 
-    public function cancel(int $serviceId, string $reason = ''): array
+    /**
+     * Cancel service
+     */
+    public function cancel(int $serviceId, array $data = []): array
     {
-        return $this->http->post("/api/service/{$serviceId}/cancel", ['reason' => $reason]);
+        return $this->http->post('/api/service/' . $serviceId . '/cancel', $data);
     }
 
+    /**
+     * Get service label
+     */
     public function getLabel(int $serviceId): array
     {
-        return $this->http->get("/api/service/{$serviceId}/label");
+        return $this->http->get('/api/service/' . $serviceId . '/label');
     }
 
-    public function setLabel(int $serviceId, string $label): array
+    /**
+     * Set service label
+     */
+    public function setLabel(int $serviceId, array $data): array
     {
-        return $this->http->put("/api/service/{$serviceId}/label", ['label' => $label]);
+        return $this->http->post('/api/service/' . $serviceId . '/label', $data);
     }
 
+    /**
+     * Renew service
+     */
     public function renew(int $serviceId): array
     {
-        return $this->http->post("/api/service/{$serviceId}/renew");
+        return $this->http->post('/api/service/' . $serviceId . '/renew');
     }
 
-    public function listBillingCycles(int $serviceId): array
+    /**
+     * Get service cycle
+     */
+    public function getCycle(int $serviceId): array
     {
-        return $this->http->get("/api/service/{$serviceId}/billing_cycles");
+        return $this->http->get('/api/service/' . $serviceId . '/cycle');
     }
 
-    public function changeBillingCycle(int $serviceId, string $billingCycle): array
+    /**
+     * Set service cycle
+     */
+    public function setCycle(int $serviceId, array $data): array
     {
-        return $this->http->put("/api/service/{$serviceId}/billing_cycles", [
-            'billing_cycle' => $billingCycle,
-        ]);
+        return $this->http->post('/api/service/' . $serviceId . '/cycle', $data);
     }
+
 }

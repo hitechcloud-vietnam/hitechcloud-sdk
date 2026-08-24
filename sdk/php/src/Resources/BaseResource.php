@@ -2,6 +2,8 @@
 
 namespace HiTechCloud\SDK\Resources;
 
+use HiTechCloud\SDK\HttpClient;
+
 class BaseResource
 {
     protected HttpClient $http;

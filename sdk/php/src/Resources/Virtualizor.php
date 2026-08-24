@@ -4,23 +4,36 @@ namespace HiTechCloud\SDK\Resources;
 
 class Virtualizor extends BaseResource
 {
-    public function list(array $params = []): array
+    /**
+     * Suspend VM
+     */
+    public function suspend(int $serviceId, int $vmId): array
     {
-        return $this->http->get('/api/virtualizor', $params);
+        return $this->http->post('/api/service/' . $serviceId . '/vms/' . $vmId . '/suspend');
     }
 
-    public function get(int $vpsId): array
+    /**
+     * Unsuspend VM
+     */
+    public function unsuspend(int $serviceId, int $vmId): array
     {
-        return $this->http->get("/api/virtualizor/{$vpsId}");
+        return $this->http->post('/api/service/' . $serviceId . '/vms/' . $vmId . '/unsuspend');
     }
 
-    public function start(int $vpsId): array
+    /**
+     * Get rebuild info
+     */
+    public function getRebuildInfo(int $serviceId, int $vmId): array
     {
-        return $this->http->post("/api/virtualizor/{$vpsId}/start");
+        return $this->http->get('/api/service/' . $serviceId . '/vms/' . $vmId . '/rebuild');
     }
 
-    public function stop(int $vpsId): array
+    /**
+     * Add SSH key
+     */
+    public function addSshKey(int $serviceId, int $vmId, array $data): array
     {
-        return $this->http->post("/api/virtualizor/{$vpsId}/stop");
+        return $this->http->post('/api/service/' . $serviceId . '/vms/' . $vmId . '/addsshkey', $data);
     }
+
 }

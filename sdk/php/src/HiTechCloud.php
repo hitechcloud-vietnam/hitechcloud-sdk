@@ -24,6 +24,29 @@ class HiTechCloud
     public Resources\Affiliate $affiliate;
     public Resources\CloudGpu $cloudGpu;
     public Resources\Virtualizor $virtualizor;
+    public Resources\CloudService $cloudService;
+    public Resources\NetworkServices $networkServices;
+    public Resources\ServiceStatus $serviceStatus;
+    public Resources\BareMetal $bareMetal;
+    public Resources\Collocation $collocation;
+    public Resources\VCloudStack $vcloudstack;
+    public Resources\Hosting $hosting;
+    public Resources\LocationV2 $locationV2;
+    public Resources\CloudInstance $cloudInstance;
+    public Resources\CloudVm $cloudVm;
+    public Resources\AffiliatesAdvanced $affiliatesAdvanced;
+    public Resources\AiFactory $aiFactory;
+    public Resources\PasskeyV2 $passkeyV2;
+    public Resources\EmailMfaV2 $emailMfaV2;
+    public Resources\VNeIdeKyc $vneidekyc;
+    public Resources\WillExpired $willExpired;
+    public Resources\UrlShortener $urlShortener;
+    public Resources\ProxmoxBackup $proxmoxBackup;
+    public Resources\CephS3 $cephS3;
+    public Resources\Pmg $pmg;
+    public Resources\Proxmox $proxmox;
+    public Resources\Ipam $ipam;
+    public Resources\Partner $partner;
 
     public function __construct(
         string $baseUrl = self::PRODUCTION_URL,
@@ -54,6 +77,29 @@ class HiTechCloud
         $this->affiliate = new Resources\Affiliate($this->http);
         $this->cloudGpu = new Resources\CloudGpu($this->http);
         $this->virtualizor = new Resources\Virtualizor($this->http);
+        $this->cloudService = new Resources\CloudService($this->http);
+        $this->networkServices = new Resources\NetworkServices($this->http);
+        $this->serviceStatus = new Resources\ServiceStatus($this->http);
+        $this->bareMetal = new Resources\BareMetal($this->http);
+        $this->collocation = new Resources\Collocation($this->http);
+        $this->vcloudstack = new Resources\VCloudStack($this->http);
+        $this->hosting = new Resources\Hosting($this->http);
+        $this->locationV2 = new Resources\LocationV2($this->http);
+        $this->cloudInstance = new Resources\CloudInstance($this->http);
+        $this->cloudVm = new Resources\CloudVm($this->http);
+        $this->affiliatesAdvanced = new Resources\AffiliatesAdvanced($this->http);
+        $this->aiFactory = new Resources\AiFactory($this->http);
+        $this->passkeyV2 = new Resources\PasskeyV2($this->http);
+        $this->emailMfaV2 = new Resources\EmailMfaV2($this->http);
+        $this->vneidekyc = new Resources\VNeIdeKyc($this->http);
+        $this->willExpired = new Resources\WillExpired($this->http);
+        $this->urlShortener = new Resources\UrlShortener($this->http);
+        $this->proxmoxBackup = new Resources\ProxmoxBackup($this->http);
+        $this->cephS3 = new Resources\CephS3($this->http);
+        $this->pmg = new Resources\Pmg($this->http);
+        $this->proxmox = new Resources\Proxmox($this->http);
+        $this->ipam = new Resources\Ipam($this->http);
+        $this->partner = new Resources\Partner($this->http);
 
         if ($username && $password && !$token) {
             $this->login($username, $password);

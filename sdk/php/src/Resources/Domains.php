@@ -4,113 +4,180 @@ namespace HiTechCloud\SDK\Resources;
 
 class Domains extends BaseResource
 {
+    /**
+     * WHOIS lookup
+     */
+    public function whois(string $domain): array
+    {
+        return $this->http->get('/api/whois/' . $domain);
+    }
+
+    /**
+     * List domains
+     */
     public function list(array $params = []): array
     {
         return $this->http->get('/api/domain', $params);
     }
 
+    /**
+     * Get domain
+     */
     public function get(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}");
+        return $this->http->get('/api/domain/' . $serviceId);
     }
 
+    /**
+     * Get domain by name
+     */
     public function getByName(string $name): array
     {
-        return $this->http->get("/api/domain/name/{$name}");
+        return $this->http->get('/api/domain/name/' . $name);
     }
 
-    public function whois(string $domain): array
-    {
-        return $this->http->get("/api/whois/{$domain}");
-    }
-
-    public function whoisLookup(string $domain): array
-    {
-        return $this->http->get("/api/whoislookup/{$domain}");
-    }
-
-    public function checkAvailability(string $domain): array
-    {
-        return $this->http->get("/api/domain/availability/{$domain}");
-    }
-
+    /**
+     * Get nameservers
+     */
     public function getNameservers(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/ns");
+        return $this->http->get('/api/domain/' . $serviceId . '/ns');
     }
 
-    public function updateNameservers(int $domainId, array $ns): array
+    /**
+     * Set nameservers
+     */
+    public function setNameservers(int $domainId, array $data): array
     {
-        return $this->http->put("/api/domain/{$domainId}/ns", $ns);
+        return $this->http->put('/api/domain/' . $serviceId . '/ns', $data);
     }
 
+    /**
+     * Get EPP code
+     */
     public function getEppCode(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/epp");
+        return $this->http->get('/api/domain/' . $serviceId . '/epp');
     }
 
+    /**
+     * Sync domain
+     */
     public function sync(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/sync");
+        return $this->http->get('/api/domain/' . $serviceId . '/sync');
     }
 
-    public function getLock(int $domainId): array
+    /**
+     * Get registrar lock
+     */
+    public function getRegLock(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/reglock");
+        return $this->http->get('/api/domain/' . $serviceId . '/reglock');
     }
 
-    public function updateLock(int $domainId, bool $reglock): array
+    /**
+     * Set registrar lock
+     */
+    public function setRegLock(int $domainId, array $data): array
     {
-        return $this->http->put("/api/domain/{$domainId}/reglock", ['reglock' => $reglock]);
+        return $this->http->put('/api/domain/' . $serviceId . '/reglock', $data);
     }
 
-    public function updateIdProtection(int $domainId, bool $idprotection): array
+    /**
+     * Toggle ID protection
+     */
+    public function toggleIdProtection(int $domainId, array $data): array
     {
-        return $this->http->put("/api/domain/{$domainId}/idprotection", ['idprotection' => $idprotection]);
+        return $this->http->put('/api/domain/' . $serviceId . '/idprotection', $data);
     }
 
-    public function getContact(int $domainId): array
+    /**
+     * Get domain contacts
+     */
+    public function getContacts(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/contact");
+        return $this->http->get('/api/domain/' . $serviceId . '/contact');
     }
 
-    public function updateContact(int $domainId, array $data): array
+    /**
+     * Set domain contacts
+     */
+    public function setContacts(int $domainId, array $data): array
     {
-        return $this->http->put("/api/domain/{$domainId}/contact", $data);
+        return $this->http->put('/api/domain/' . $serviceId . '/contact', $data);
     }
 
+    /**
+     * Get email forwarding
+     */
     public function getEmailForwarding(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/email/forwarding");
+        return $this->http->get('/api/domain/' . $serviceId . '/email/forwarding');
     }
 
-    public function updateEmailForwarding(int $domainId, array $entries): array
+    /**
+     * Set email forwarding
+     */
+    public function setEmailForwarding(int $domainId, array $data): array
     {
-        return $this->http->put("/api/domain/{$domainId}/email/forwarding", ['entries' => $entries]);
+        return $this->http->put('/api/domain/' . $serviceId . '/email/forwarding', $data);
     }
 
-    public function getAvailableTlds(): array
+    /**
+     * Check availability
+     */
+    public function checkAvailability(string $domain): array
     {
-        return $this->http->get('/api/domain/order');
+        return $this->http->get('/api/domain/availability/' . $domain);
     }
 
-    public function order(string $domain, int $years = 1, array $data = []): array
+    /**
+     * List domain orders
+     */
+    public function listOrders(array $params = []): array
     {
-        return $this->http->post('/api/domain/order', array_merge(['domain' => $domain, 'years' => $years], $data));
+        return $this->http->get('/api/domain/order', $params);
     }
 
-    public function renew(int $domainId, int $years = 1): array
+    /**
+     * Create domain order
+     */
+    public function createOrder(array $data): array
     {
-        return $this->http->post("/api/domain/{$domainId}/renew", ['years' => $years]);
+        return $this->http->post('/api/domain/order', $data);
     }
 
-    public function getTldForm(int $tldId): array
+    /**
+     * Get order form
+     */
+    public function getOrderForm(int $orderId): array
     {
-        return $this->http->get("/api/domain/order/{$tldId}/form");
+        return $this->http->get('/api/domain/order/' . $serviceId . '/form');
     }
 
+    /**
+     * Renew domain
+     */
+    public function renew(int $domainId, array $data = []): array
+    {
+        return $this->http->post('/api/domain/' . $serviceId . '/renew', $data);
+    }
+
+    /**
+     * WHOIS lookup v2
+     */
+    public function whoisLookup(string $domain): array
+    {
+        return $this->http->get('/api/whoislookup/' . $domain);
+    }
+
+    /**
+     * Get domain documents
+     */
     public function getDocuments(int $domainId): array
     {
-        return $this->http->get("/api/domain/{$domainId}/documents");
+        return $this->http->get('/api/domain/' . $serviceId . '/documents');
     }
+
 }

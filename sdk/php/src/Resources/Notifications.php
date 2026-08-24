@@ -4,18 +4,28 @@ namespace HiTechCloud\SDK\Resources;
 
 class Notifications extends BaseResource
 {
+    /**
+     * List notifications
+     */
     public function list(array $params = []): array
     {
         return $this->http->get('/api/notifications', $params);
     }
 
-    public function getPreferences(): array
+    /**
+     * Get new notifications
+     */
+    public function getNew(): array
     {
-        return $this->http->get('/api/notifications/preferences');
+        return $this->http->get('/api/notifications/new');
     }
 
-    public function updatePreferences(array $data): array
+    /**
+     * Acknowledge notification
+     */
+    public function acknowledge(int $notificationId): array
     {
-        return $this->http->put('/api/notifications/preferences', $data);
+        return $this->http->put('/api/notifications/' . $serviceId . '/ack');
     }
+
 }

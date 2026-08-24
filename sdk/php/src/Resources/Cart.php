@@ -4,33 +4,52 @@ namespace HiTechCloud\SDK\Resources;
 
 class Cart extends BaseResource
 {
-    public function get(): array
+    /**
+     * List categories
+     */
+    public function listCategories(): array
     {
-        return $this->http->get('/api/cart');
+        return $this->http->get('/api/category');
     }
 
-    public function add(int $productId, array $data = []): array
+    /**
+     * List products
+     */
+    public function listProducts(int $categoryId): array
     {
-        return $this->http->post('/api/cart', array_merge(['product_id' => $productId], $data));
+        return $this->http->get('/api/category/' . $categoryId . '/product');
     }
 
-    public function remove(int $itemId): array
+    /**
+     * Get product
+     */
+    public function getProduct(int $productId): array
     {
-        return $this->http->delete("/api/cart/{$itemId}");
+        return $this->http->get('/api/order/' . $productId);
     }
 
-    public function applyPromo(string $code): array
+    /**
+     * Configure product
+     */
+    public function configureProduct(int $productId, array $data): array
     {
-        return $this->http->post('/api/cart/promo', ['code' => $code]);
+        return $this->http->post('/api/order/' . $productId, $data);
     }
 
-    public function checkout(array $data = []): array
+    /**
+     * Checkout
+     */
+    public function checkout(array $data): array
     {
-        return $this->http->post('/api/cart/checkout', $data);
+        return $this->http->post('/api/order', $data);
     }
 
-    public function getPaymentMethods(): array
+    /**
+     * Get quote
+     */
+    public function getQuote(array $data): array
     {
-        return $this->http->get('/api/cart/payment');
+        return $this->http->post('/api/quote', $data);
     }
+
 }

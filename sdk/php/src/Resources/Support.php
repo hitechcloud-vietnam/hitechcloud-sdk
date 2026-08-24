@@ -4,68 +4,108 @@ namespace HiTechCloud\SDK\Resources;
 
 class Support extends BaseResource
 {
+    /**
+     * List tickets
+     */
     public function listTickets(array $params = []): array
     {
         return $this->http->get('/api/tickets', $params);
     }
 
+    /**
+     * Create ticket
+     */
     public function createTicket(array $data): array
     {
         return $this->http->post('/api/tickets', $data);
     }
 
+    /**
+     * Get ticket
+     */
     public function getTicket(string $ticketNumber): array
     {
-        return $this->http->get("/api/tickets/{$ticketNumber}");
+        return $this->http->get('/api/tickets/' . $ticketNumber);
     }
 
-    public function reply(string $ticketNumber, string $message): array
+    /**
+     * Reply to ticket
+     */
+    public function replyTicket(string $ticketNumber, array $data): array
     {
-        return $this->http->post("/api/tickets/{$ticketNumber}", ['message' => $message]);
+        return $this->http->post('/api/tickets/' . $ticketNumber, $data);
     }
 
+    /**
+     * Get attachment
+     */
     public function getAttachment(string $file): array
     {
-        return $this->http->get("/api/ticket/attachment/{$file}");
+        return $this->http->get('/api/ticket/attachment/' . $file);
     }
 
-    public function reopen(string $ticketNumber): array
+    /**
+     * Open ticket
+     */
+    public function openTicket(string $ticketNumber): array
     {
-        return $this->http->put("/api/tickets/{$ticketNumber}/open");
+        return $this->http->put('/api/tickets/' . $ticketNumber . '/open');
     }
 
-    public function close(string $ticketNumber): array
+    /**
+     * Close ticket
+     */
+    public function closeTicket(string $ticketNumber): array
     {
-        return $this->http->put("/api/tickets/{$ticketNumber}/close");
+        return $this->http->put('/api/tickets/' . $ticketNumber . '/close');
     }
 
-    public function listDepartments(): array
+    /**
+     * Get departments
+     */
+    public function getDepartments(): array
     {
         return $this->http->get('/api/ticket/departments');
     }
 
-    public function listNews(): array
+    /**
+     * List news
+     */
+    public function listNews(array $params = []): array
     {
-        return $this->http->get('/api/news');
+        return $this->http->get('/api/news', $params);
     }
 
+    /**
+     * Get news article
+     */
     public function getNews(int $newsId): array
     {
-        return $this->http->get("/api/news/{$newsId}");
+        return $this->http->get('/api/news/' . $newsId);
     }
 
-    public function listKnowledgebaseCategories(): array
+    /**
+     * List knowledgebase
+     */
+    public function listKnowledgebase(array $params = []): array
     {
-        return $this->http->get('/api/knowledgebase');
+        return $this->http->get('/api/knowledgebase', $params);
     }
 
+    /**
+     * Get KB category
+     */
     public function getKnowledgebaseCategory(int $categoryId): array
     {
-        return $this->http->get("/api/knowledgebase/{$categoryId}");
+        return $this->http->get('/api/knowledgebase/' . $categoryId);
     }
 
+    /**
+     * Get KB article
+     */
     public function getKnowledgebaseArticle(int $articleId): array
     {
-        return $this->http->get("/api/knowledgebase/article/{$articleId}");
+        return $this->http->get('/api/knowledgebase/article/' . $articleId);
     }
+
 }

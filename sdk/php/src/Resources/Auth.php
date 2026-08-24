@@ -2,42 +2,54 @@
 
 namespace HiTechCloud\SDK\Resources;
 
-use HiTechCloud\SDK\HttpClient;
-
 class Auth extends BaseResource
 {
+    /**
+     * Login
+     */
     public function login(string $email, string $password): array
     {
-        return $this->http->post('/api/auth/login', compact('email', 'password'));
+        return $this->http->post('/api/login');
     }
 
+    /**
+     * Logout
+     */
     public function logout(): array
     {
-        return $this->http->post('/api/auth/logout');
+        return $this->http->post('/api/logout');
     }
 
+    /**
+     * Refresh token
+     */
     public function refreshToken(): array
     {
-        return $this->http->post('/api/auth/refresh');
+        return $this->http->post('/api/token');
     }
 
+    /**
+     * Revoke token
+     */
     public function revokeToken(): array
     {
-        return $this->http->post('/api/auth/revoke');
+        return $this->http->post('/api/revoke');
     }
 
+    /**
+     * Password reset
+     */
     public function passwordReset(string $email): array
     {
-        return $this->http->post('/api/auth/password/reset', compact('email'));
+        return $this->http->post('/api/passwordreset');
     }
 
+    /**
+     * Signup
+     */
     public function signup(string $email, string $password, string $firstName, string $lastName): array
     {
-        return $this->http->post('/api/auth/signup', [
-            'email' => $email,
-            'password' => $password,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-        ]);
+        return $this->http->post('/api/signup');
     }
+
 }

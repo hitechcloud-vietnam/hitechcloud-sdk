@@ -4,33 +4,52 @@ namespace HiTechCloud\SDK\Resources;
 
 class CloudGpu extends BaseResource
 {
-    public function list(array $params = []): array
+    /**
+     * Reboot VM
+     */
+    public function reboot(int $serviceId, array $data): array
     {
-        return $this->http->get('/api/gpu', $params);
+        return $this->http->put('/api/service/' . $serviceId . '/vms/reboot', $data);
     }
 
-    public function get(int $gpuId): array
+    /**
+     * Stop VM
+     */
+    public function stop(int $serviceId, array $data): array
     {
-        return $this->http->get("/api/gpu/{$gpuId}");
+        return $this->http->put('/api/service/' . $serviceId . '/vms/stop', $data);
     }
 
-    public function start(int $gpuId): array
+    /**
+     * Start VM
+     */
+    public function start(int $serviceId, array $data): array
     {
-        return $this->http->post("/api/gpu/{$gpuId}/start");
+        return $this->http->put('/api/service/' . $serviceId . '/vms/start', $data);
     }
 
-    public function stop(int $gpuId): array
+    /**
+     * Get firewall rules
+     */
+    public function getFirewall(int $serviceId): array
     {
-        return $this->http->post("/api/gpu/{$gpuId}/stop");
+        return $this->http->get('/api/service/' . $serviceId . '/vms/firewall');
     }
 
-    public function restart(int $gpuId): array
+    /**
+     * Create firewall rule
+     */
+    public function createFirewallRule(int $serviceId, array $data): array
     {
-        return $this->http->post("/api/gpu/{$gpuId}/restart");
+        return $this->http->post('/api/service/' . $serviceId . '/vms/firewall', $data);
     }
 
-    public function getConsole(int $gpuId): array
+    /**
+     * Delete firewall rule
+     */
+    public function deleteFirewallRule(int $serviceId, int $position): array
     {
-        return $this->http->get("/api/gpu/{$gpuId}/console");
+        return $this->http->delete('/api/service/' . $serviceId . '/vms/firewall/' . $position);
     }
+
 }

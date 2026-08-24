@@ -4,33 +4,52 @@ namespace HiTechCloud\SDK\Resources;
 
 class Affiliate extends BaseResource
 {
-    public function getDetails(): array
+    /**
+     * Get affiliate summary
+     */
+    public function getSummary(): array
     {
-        return $this->http->get('/api/affiliate');
+        return $this->http->get('/api/affiliates/summary');
     }
 
-    public function getBalance(): array
+    /**
+     * List campaigns
+     */
+    public function listCampaigns(): array
     {
-        return $this->http->get('/api/affiliate/balance');
+        return $this->http->get('/api/affiliates/campaigns');
     }
 
-    public function getPayout(): array
+    /**
+     * List commissions
+     */
+    public function listCommissions(array $params = []): array
     {
-        return $this->http->get('/api/affiliate/payout');
+        return $this->http->get('/api/affiliates/commissions', $params);
     }
 
-    public function updatePayout(array $data): array
+    /**
+     * List payouts
+     */
+    public function listPayouts(): array
     {
-        return $this->http->put('/api/affiliate/payout', $data);
+        return $this->http->get('/api/affiliates/payouts');
     }
 
-    public function listReferrals(array $params = []): array
+    /**
+     * List vouchers
+     */
+    public function listVouchers(): array
     {
-        return $this->http->get('/api/affiliate/referrals', $params);
+        return $this->http->get('/api/affiliates/vouchers');
     }
 
-    public function listTransactions(array $params = []): array
+    /**
+     * List commission plans
+     */
+    public function listCommissionPlans(): array
     {
-        return $this->http->get('/api/affiliate/transactions', $params);
+        return $this->http->get('/api/affiliates/commissionplans');
     }
+
 }
