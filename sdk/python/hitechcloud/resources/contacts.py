@@ -1,32 +1,32 @@
 """Contacts resource (5 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class ContactsResource(BaseResource):
     """Contacts: manage account contacts"""
 
     def list(self, page: int = None, per_page: int = None) -> dict:
-        """GET /api/contacts - List all contacts"""
+        """GET /api/contact - Return a list of contacts on this account"""
         params = {}
         if page is not None:
             params["page"] = page
         if per_page is not None:
             params["per_page"] = per_page
-        return self._http.get("/api/contacts", params)
-
-    def get(self, contact_id: int) -> dict:
-        """GET /api/contacts/{id} - Get contact details"""
-        return self._http.get(f"/api/contacts/{contact_id}")
+        return self._http.get("/api/contact", params)
 
     def create(self, **kwargs) -> dict:
-        """POST /api/contacts - Create new contact"""
-        return self._http.post("/api/contacts", kwargs)
+        """POST /api/contact - Create new contact account"""
+        return self._http.post("/api/contact", kwargs)
+
+    def get_privileges(self) -> dict:
+        """GET /api/contact/privileges - List possible contact privileges"""
+        return self._http.get("/api/contact/privileges")
+
+    def get(self, contact_id: int) -> dict:
+        """GET /api/contact/{id} - Get contact details"""
+        return self._http.get(f"/api/contact/{contact_id}")
 
     def update(self, contact_id: int, **kwargs) -> dict:
-        """PUT /api/contacts/{id} - Update contact"""
-        return self._http.put(f"/api/contacts/{contact_id}", kwargs)
-
-    def delete(self, contact_id: int) -> dict:
-        """DELETE /api/contacts/{id} - Delete contact"""
-        return self._http.delete(f"/api/contacts/{contact_id}")
+        """PUT /api/contact/{id} - Update contact details"""
+        return self._http.put(f"/api/contact/{contact_id}", kwargs)

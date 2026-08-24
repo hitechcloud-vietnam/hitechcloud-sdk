@@ -1,6 +1,6 @@
 """SSL Certificates resource (6 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class SSLResource(BaseResource):

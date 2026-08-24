@@ -1,6 +1,6 @@
 """Domains resource (25 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class DomainsResource(BaseResource):

@@ -1,6 +1,6 @@
 """Services resource (9 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class ServicesResource(BaseResource):

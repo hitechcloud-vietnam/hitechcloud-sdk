@@ -18,7 +18,29 @@ from .resources.notifications import NotificationsResource
 from .resources.affiliate import AffiliateResource
 from .resources.cloud_gpu import CloudGpuResource
 from .resources.virtualizor import VirtualizorResource
-
+from .resources.cloud_service import CloudServiceResource
+from .resources.network_services import NetworkServicesResource
+from .resources.service_status import ServiceStatusResource
+from .resources.bare_metal import BareMetalResource
+from .resources.collocation import CollocationResource
+from .resources.vcloudstack import VCloudStackResource
+from .resources.hosting import HostingResource
+from .resources.location_v2 import LocationV2Resource
+from .resources.cloud_instance import CloudInstanceResource
+from .resources.cloud_vm import CloudVmResource
+from .resources.affiliates_advanced import AffiliatesAdvancedResource
+from .resources.ai_factory import AiFactoryResource
+from .resources.passkey_v2 import PasskeyV2Resource
+from .resources.email_mfa_v2 import EmailMfaV2Resource
+from .resources.vneidekyc import VNeIdeKycResource
+from .resources.will_expired import WillExpiredResource
+from .resources.url_shortener import UrlShortenerResource
+from .resources.proxmox_backup import ProxmoxBackupResource
+from .resources.ceph_s3 import CephS3Resource
+from .resources.pmg import PmgResource
+from .resources.proxmox import ProxmoxResource
+from .resources.ipam import IpamResource
+from .resources.partner import PartnerResource
 
 class HiTechCloud:
     """
@@ -83,6 +105,29 @@ class HiTechCloud:
         self.affiliate = AffiliateResource(self._http)
         self.cloud_gpu = CloudGpuResource(self._http)
         self.virtualizor = VirtualizorResource(self._http)
+        self.cloud_service = CloudServiceResource(self._http)
+        self.network_services = NetworkServicesResource(self._http)
+        self.service_status = ServiceStatusResource(self._http)
+        self.bare_metal = BareMetalResource(self._http)
+        self.collocation = CollocationResource(self._http)
+        self.vcloudstack = VCloudStackResource(self._http)
+        self.hosting = HostingResource(self._http)
+        self.location_v2 = LocationV2Resource(self._http)
+        self.cloud_instance = CloudInstanceResource(self._http)
+        self.cloud_vm = CloudVmResource(self._http)
+        self.affiliates_advanced = AffiliatesAdvancedResource(self._http)
+        self.ai_factory = AiFactoryResource(self._http)
+        self.passkey_v2 = PasskeyV2Resource(self._http)
+        self.email_mfa_v2 = EmailMfaV2Resource(self._http)
+        self.vneidekyc = VNeIdeKycResource(self._http)
+        self.will_expired = WillExpiredResource(self._http)
+        self.url_shortener = UrlShortenerResource(self._http)
+        self.proxmox_backup = ProxmoxBackupResource(self._http)
+        self.ceph_s3 = CephS3Resource(self._http)
+        self.pmg = PmgResource(self._http)
+        self.proxmox = ProxmoxResource(self._http)
+        self.ipam = IpamResource(self._http)
+        self.partner = PartnerResource(self._http)
 
     def login(self, username: str, password: str) -> dict:
         """Authenticate and store token"""
@@ -97,16 +142,3 @@ class HiTechCloud:
         result = self.auth.logout()
         self._http.clear_token()
         return result
-
-    def close(self):
-        """Close the client and HTTP session"""
-        self._http.close()
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        self.close()
-
-    def __repr__(self):
-        return f"HiTechCloud(base_url='{self._http.base_url}')"

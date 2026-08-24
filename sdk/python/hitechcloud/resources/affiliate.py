@@ -1,41 +1,31 @@
 """Affiliate resource (6 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class AffiliateResource(BaseResource):
     """Affiliate: affiliate program management"""
 
-    def get_details(self) -> dict:
-        """GET /api/affiliate - Get affiliate account details"""
-        return self._http.get("/api/affiliate")
+    def get_summary(self) -> dict:
+        """GET /api/affiliates/summary - Get Affiliate summary"""
+        return self._http.get("/api/affiliates/summary")
 
-    def get_balance(self) -> str:
-        """GET /api/affiliate/balance - Get affiliate balance"""
-        return self._http.get("/api/affiliate/balance")
+    def list_campaigns(self) -> dict:
+        """GET /api/affiliates/campaigns - Get Affiliate campaigns"""
+        return self._http.get("/api/affiliates/campaigns")
 
-    def get_payout(self) -> dict:
-        """GET /api/affiliate/payout - Get payout details"""
-        return self._http.get("/api/affiliate/payout")
+    def list_commissions(self) -> dict:
+        """GET /api/affiliates/commissions - Get Affiliate commissions"""
+        return self._http.get("/api/affiliates/commissions")
 
-    def update_payout(self, **kwargs) -> dict:
-        """PUT /api/affiliate/payout - Update payout details"""
-        return self._http.put("/api/affiliate/payout", kwargs)
+    def list_payouts(self) -> dict:
+        """GET /api/affiliates/payouts - Get Affiliate payouts"""
+        return self._http.get("/api/affiliates/payouts")
 
-    def list_referrals(self, page: int = None, per_page: int = None) -> dict:
-        """GET /api/affiliate/referrals - List referrals"""
-        params = {}
-        if page is not None:
-            params["page"] = page
-        if per_page is not None:
-            params["per_page"] = per_page
-        return self._http.get("/api/affiliate/referrals", params)
+    def list_vouchers(self) -> dict:
+        """GET /api/affiliates/vouchers - Get Affiliate vouchers"""
+        return self._http.get("/api/affiliates/vouchers")
 
-    def list_transactions(self, page: int = None, per_page: int = None) -> dict:
-        """GET /api/affiliate/transactions - List affiliate transactions"""
-        params = {}
-        if page is not None:
-            params["page"] = page
-        if per_page is not None:
-            params["per_page"] = per_page
-        return self._http.get("/api/affiliate/transactions", params)
+    def list_commission_plans(self) -> dict:
+        """GET /api/affiliates/commissionplans - Get Affiliate commission plans"""
+        return self._http.get("/api/affiliates/commissionplans")

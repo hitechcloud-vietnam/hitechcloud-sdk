@@ -1,6 +1,6 @@
 """Support resource (13 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class SupportResource(BaseResource):

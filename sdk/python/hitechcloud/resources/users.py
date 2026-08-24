@@ -1,6 +1,6 @@
 """User Profile resource (3 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class UsersResource(BaseResource):

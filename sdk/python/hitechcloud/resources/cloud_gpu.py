@@ -1,36 +1,31 @@
 """Cloud GPU resource (6 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class CloudGpuResource(BaseResource):
     """Cloud GPU: GPU instance management"""
 
-    def list(self, page: int = None, per_page: int = None) -> dict:
-        """GET /api/gpu - List GPU instances"""
-        params = {}
-        if page is not None:
-            params["page"] = page
-        if per_page is not None:
-            params["per_page"] = per_page
-        return self._http.get("/api/gpu", params)
+    def reboot(self, service_id: int) -> dict:
+        """PUT /api/service/{id}/vms/reboot - Reboot virtual server"""
+        return self._http.put(f"/api/service/{service_id}/vms/reboot")
 
-    def get(self, gpu_id: int) -> dict:
-        """GET /api/gpu/{id} - Get GPU instance details"""
-        return self._http.get(f"/api/gpu/{gpu_id}")
+    def stop(self, service_id: int) -> dict:
+        """PUT /api/service/{id}/vms/stop - Stop virtual server"""
+        return self._http.put(f"/api/service/{service_id}/vms/stop")
 
-    def start(self, gpu_id: int) -> dict:
-        """POST /api/gpu/{id}/start - Start GPU instance"""
-        return self._http.post(f"/api/gpu/{gpu_id}/start")
+    def start(self, service_id: int) -> dict:
+        """PUT /api/service/{id}/vms/start - Start virtual server"""
+        return self._http.put(f"/api/service/{service_id}/vms/start")
 
-    def stop(self, gpu_id: int) -> dict:
-        """POST /api/gpu/{id}/stop - Stop GPU instance"""
-        return self._http.post(f"/api/gpu/{gpu_id}/stop")
+    def get_firewall_rules(self, service_id: int) -> dict:
+        """GET /api/service/{id}/vms/firewall - Get firewall rules"""
+        return self._http.get(f"/api/service/{service_id}/vms/firewall")
 
-    def restart(self, gpu_id: int) -> dict:
-        """POST /api/gpu/{id}/restart - Restart GPU instance"""
-        return self._http.post(f"/api/gpu/{gpu_id}/restart")
+    def add_firewall_rules(self, service_id: int, rules: list) -> dict:
+        """POST /api/service/{id}/vms/firewall - Add firewall rules"""
+        return self._http.post(f"/api/service/{service_id}/vms/firewall", {"rules": rules})
 
-    def get_console(self, gpu_id: int) -> dict:
-        """GET /api/gpu/{id}/console - Get GPU instance console"""
-        return self._http.get(f"/api/gpu/{gpu_id}/console")
+    def remove_firewall_rule(self, service_id: int, position: int) -> dict:
+        """DELETE /api/service/{id}/vms/firewall/{position} - Remove firewall rule"""
+        return self._http.delete(f"/api/service/{service_id}/vms/firewall/{position}")

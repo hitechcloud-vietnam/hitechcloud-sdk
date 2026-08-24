@@ -1,6 +1,6 @@
 """Notifications resource (3 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class NotificationsResource(BaseResource):
@@ -15,10 +15,10 @@ class NotificationsResource(BaseResource):
             params["per_page"] = per_page
         return self._http.get("/api/notifications", params)
 
-    def get_preferences(self) -> dict:
-        """GET /api/notifications/preferences - Get notification preferences"""
-        return self._http.get("/api/notifications/preferences")
+    def list_new(self) -> dict:
+        """GET /api/notifications/new - Return only new portal notifications"""
+        return self._http.get("/api/notifications/new")
 
-    def update_preferences(self, **kwargs) -> dict:
-        """PUT /api/notifications/preferences - Update notification preferences"""
-        return self._http.put("/api/notifications/preferences", kwargs)
+    def acknowledge(self, notification_id: int) -> dict:
+        """PUT /api/notifications/{id}/ack - Mark notification as read"""
+        return self._http.put(f"/api/notifications/{notification_id}/ack")

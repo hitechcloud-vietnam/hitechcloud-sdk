@@ -1,6 +1,6 @@
 """DNS Manage resource (10 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class DnsManageResource(BaseResource):

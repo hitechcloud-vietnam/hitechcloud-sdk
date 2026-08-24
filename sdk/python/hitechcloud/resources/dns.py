@@ -1,6 +1,6 @@
 """DNS resource (8 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class DnsResource(BaseResource):

@@ -1,28 +1,23 @@
 """Virtualizor resource (4 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class VirtualizorResource(BaseResource):
     """Virtualizor: VPS management via Virtualizor panel"""
 
-    def list(self, page: int = None, per_page: int = None) -> dict:
-        """GET /api/virtualizor - List Virtualizor VPS instances"""
-        params = {}
-        if page is not None:
-            params["page"] = page
-        if per_page is not None:
-            params["per_page"] = per_page
-        return self._http.get("/api/virtualizor", params)
+    def suspend(self, service_id: int, vmid: int) -> dict:
+        """POST /api/service/{id}/vms/{vmid}/suspend - Suspend virtual server"""
+        return self._http.post(f"/api/service/{service_id}/vms/{vmid}/suspend")
 
-    def get(self, vps_id: int) -> dict:
-        """GET /api/virtualizor/{id} - Get VPS details"""
-        return self._http.get(f"/api/virtualizor/{vps_id}")
+    def unsuspend(self, service_id: int, vmid: int) -> dict:
+        """POST /api/service/{id}/vms/{vmid}/unsuspend - Unsuspend virtual server"""
+        return self._http.post(f"/api/service/{service_id}/vms/{vmid}/unsuspend")
 
-    def start(self, vps_id: int) -> dict:
-        """POST /api/virtualizor/{id}/start - Start VPS"""
-        return self._http.post(f"/api/virtualizor/{vps_id}/start")
+    def list_rebuild_templates(self, service_id: int, vmid: int) -> dict:
+        """GET /api/service/{id}/vms/{vmid}/rebuild - List rebuild templates"""
+        return self._http.get(f"/api/service/{service_id}/vms/{vmid}/rebuild")
 
-    def stop(self, vps_id: int) -> dict:
-        """POST /api/virtualizor/{id}/stop - Stop VPS"""
-        return self._http.post(f"/api/virtualizor/{vps_id}/stop")
+    def change_ssh_key(self, service_id: int, vmid: int, ssh_key: str) -> dict:
+        """POST /api/service/{id}/vms/{vmid}/addsshkey - Change SSH key"""
+        return self._http.post(f"/api/service/{service_id}/vms/{vmid}/addsshkey", {"ssh_key": ssh_key})

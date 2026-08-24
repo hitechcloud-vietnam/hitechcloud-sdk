@@ -1,32 +1,33 @@
 """Cart resource (6 endpoints)"""
 
-from . import BaseResource
+from .base import BaseResource
 
 
 class CartResource(BaseResource):
     """Cart: shopping cart management"""
 
-    def get(self) -> dict:
-        """GET /api/cart - Get cart contents"""
-        return self._http.get("/api/cart")
+    def list_categories(self) -> dict:
+        """GET /api/category - Return a list of product categories"""
+        return self._http.get("/api/category")
 
-    def add(self, product_id: int, **kwargs) -> dict:
-        """POST /api/cart - Add item to cart"""
-        data = {"product_id": product_id, **kwargs}
-        return self._http.post("/api/cart", data)
+    def list_products(self, category_id: int) -> dict:
+        """GET /api/category/{category_id}/product - List products in category"""
+        return self._http.get(f"/api/category/{category_id}/product")
 
-    def remove(self, item_id: int) -> dict:
-        """DELETE /api/cart/{id} - Remove item from cart"""
-        return self._http.delete(f"/api/cart/{item_id}")
+    def get_product_config(self, product_id: int) -> dict:
+        """GET /api/order/{product_id} - Get product configuration details"""
+        return self._http.get(f"/api/order/{product_id}")
 
-    def apply_promo(self, code: str) -> dict:
-        """POST /api/cart/promo - Apply promo code"""
-        return self._http.post("/api/cart/promo", {"code": code})
+    def order_product(self, product_id: int, **kwargs) -> dict:
+        """POST /api/order/{product_id} - Order new service"""
+        return self._http.post(f"/api/order/{product_id}", kwargs)
 
-    def checkout(self, **kwargs) -> dict:
-        """POST /api/cart/checkout - Complete checkout"""
-        return self._http.post("/api/cart/checkout", kwargs)
+    def order_multiple(self, items: list, **kwargs) -> dict:
+        """POST /api/order - Order multiple services"""
+        data = {"items": items, **kwargs}
+        return self._http.post("/api/order", data)
 
-    def get_payment_methods(self) -> dict:
-        """GET /api/cart/payment - Get available payment methods"""
-        return self._http.get("/api/cart/payment")
+    def get_quote(self, items: list, **kwargs) -> dict:
+        """POST /api/quote - Calculate order cost and recurring prices"""
+        data = {"items": items, **kwargs}
+        return self._http.post("/api/quote", data)
