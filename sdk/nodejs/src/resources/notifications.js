@@ -4,16 +4,17 @@ const { BaseResource } = require("./base");
 
 class NotificationsResource extends BaseResource {
   async list(params = {}) {
-    return this._http.get("/api/notifications", params);
+    return this._http.get("$/api/notifications");
   }
 
-  async getPreferences() {
-    return this._http.get("/api/notifications/preferences");
+  async getNew() {
+    return this._http.get("$/api/notifications/new");
   }
 
-  async updatePreferences(data) {
-    return this._http.put("/api/notifications/preferences", data);
+  async acknowledge(notificationId) {
+    return this._http.put("$/api/notifications/{id}/ack");
   }
+
 }
 
 module.exports = { NotificationsResource };

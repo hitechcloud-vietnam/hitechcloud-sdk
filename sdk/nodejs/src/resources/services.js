@@ -4,42 +4,41 @@ const { BaseResource } = require("./base");
 
 class ServicesResource extends BaseResource {
   async list(params = {}) {
-    return this._http.get("/api/service", params);
+    return this._http.get("$/api/service");
   }
 
   async get(serviceId) {
-    return this._http.get(`/api/service/${serviceId}`);
+    return this._http.get("$/api/service/{id}");
   }
 
-  async listMethods() {
-    return this._http.get("/api/service/methods");
+  async getMethods(serviceId) {
+    return this._http.get("$/api/service/{id}/methods");
   }
 
-  async cancel(serviceId, reason) {
-    return this._http.post(`/api/service/${serviceId}/cancel`, { reason });
+  async cancel(serviceId, data) {
+    return this._http.post("$/api/service/{id}/cancel", data);
   }
 
   async getLabel(serviceId) {
-    return this._http.get(`/api/service/${serviceId}/label`);
+    return this._http.get("$/api/service/{id}/label");
   }
 
-  async setLabel(serviceId, label) {
-    return this._http.put(`/api/service/${serviceId}/label`, { label });
+  async setLabel(serviceId, data) {
+    return this._http.post("$/api/service/{id}/label", data);
   }
 
   async renew(serviceId) {
-    return this._http.post(`/api/service/${serviceId}/renew`);
+    return this._http.post("$/api/service/{id}/renew");
   }
 
-  async listBillingCycles(serviceId) {
-    return this._http.get(`/api/service/${serviceId}/billing_cycles`);
+  async getCycle(serviceId) {
+    return this._http.get("$/api/service/{id}/cycle");
   }
 
-  async changeBillingCycle(serviceId, billingCycle) {
-    return this._http.put(`/api/service/${serviceId}/billing_cycles`, {
-      billing_cycle: billingCycle,
-    });
+  async setCycle(serviceId, data) {
+    return this._http.post("$/api/service/{id}/cycle", data);
   }
+
 }
 
 module.exports = { ServicesResource };

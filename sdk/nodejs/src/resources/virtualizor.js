@@ -3,21 +3,22 @@
 const { BaseResource } = require("./base");
 
 class VirtualizorResource extends BaseResource {
-  async list(params = {}) {
-    return this._http.get("/api/virtualizor", params);
+  async suspend(serviceId, vmId) {
+    return this._http.post("$/api/service/{id}/vms/{vmid}/suspend");
   }
 
-  async get(vpsId) {
-    return this._http.get(`/api/virtualizor/${vpsId}`);
+  async unsuspend(serviceId, vmId) {
+    return this._http.post("$/api/service/{id}/vms/{vmid}/unsuspend");
   }
 
-  async start(vpsId) {
-    return this._http.post(`/api/virtualizor/${vpsId}/start`);
+  async getRebuildInfo(serviceId, vmId) {
+    return this._http.get("$/api/service/{id}/vms/{vmid}/rebuild");
   }
 
-  async stop(vpsId) {
-    return this._http.post(`/api/virtualizor/${vpsId}/stop`);
+  async addSshKey(serviceId, vmId, data) {
+    return this._http.post("$/api/service/{id}/vms/{vmid}/addsshkey", data);
   }
+
 }
 
 module.exports = { VirtualizorResource };

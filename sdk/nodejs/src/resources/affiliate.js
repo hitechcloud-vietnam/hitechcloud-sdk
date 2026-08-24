@@ -3,29 +3,30 @@
 const { BaseResource } = require("./base");
 
 class AffiliateResource extends BaseResource {
-  async getDetails() {
-    return this._http.get("/api/affiliate");
+  async getSummary() {
+    return this._http.get("$/api/affiliates/summary");
   }
 
-  async getBalance() {
-    return this._http.get("/api/affiliate/balance");
+  async listCampaigns() {
+    return this._http.get("$/api/affiliates/campaigns");
   }
 
-  async getPayout() {
-    return this._http.get("/api/affiliate/payout");
+  async listCommissions(params = {}) {
+    return this._http.get("$/api/affiliates/commissions");
   }
 
-  async updatePayout(data) {
-    return this._http.put("/api/affiliate/payout", data);
+  async listPayouts() {
+    return this._http.get("$/api/affiliates/payouts");
   }
 
-  async listReferrals(params = {}) {
-    return this._http.get("/api/affiliate/referrals", params);
+  async listVouchers() {
+    return this._http.get("$/api/affiliates/vouchers");
   }
 
-  async listTransactions(params = {}) {
-    return this._http.get("/api/affiliate/transactions", params);
+  async listCommissionPlans() {
+    return this._http.get("$/api/affiliates/commissionplans");
   }
+
 }
 
 module.exports = { AffiliateResource };

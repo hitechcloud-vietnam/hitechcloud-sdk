@@ -3,29 +3,30 @@
 const { BaseResource } = require("./base");
 
 class CloudGpuResource extends BaseResource {
-  async list(params = {}) {
-    return this._http.get("/api/gpu", params);
+  async reboot(serviceId, data) {
+    return this._http.put("$/api/service/{id}/vms/reboot", data);
   }
 
-  async get(gpuId) {
-    return this._http.get(`/api/gpu/${gpuId}`);
+  async stop(serviceId, data) {
+    return this._http.put("$/api/service/{id}/vms/stop", data);
   }
 
-  async start(gpuId) {
-    return this._http.post(`/api/gpu/${gpuId}/start`);
+  async start(serviceId, data) {
+    return this._http.put("$/api/service/{id}/vms/start", data);
   }
 
-  async stop(gpuId) {
-    return this._http.post(`/api/gpu/${gpuId}/stop`);
+  async getFirewall(serviceId) {
+    return this._http.get("$/api/service/{id}/vms/firewall");
   }
 
-  async restart(gpuId) {
-    return this._http.post(`/api/gpu/${gpuId}/restart`);
+  async createFirewallRule(serviceId, data) {
+    return this._http.post("$/api/service/{id}/vms/firewall", data);
   }
 
-  async getConsole(gpuId) {
-    return this._http.get(`/api/gpu/${gpuId}/console`);
+  async deleteFirewallRule(serviceId, position) {
+    return this._http.delete(`/api/service/{id}/vms/firewall/${position}`);
   }
+
 }
 
 module.exports = { CloudGpuResource };

@@ -4,28 +4,29 @@ const { BaseResource } = require("./base");
 
 class SSLResource extends BaseResource {
   async list(params = {}) {
-    return this._http.get("/api/certificate", params);
+    return this._http.get("$/api/certificate");
   }
 
-  async get(certificateId) {
-    return this._http.get(`/api/certificate/${certificateId}`);
+  async get(certId) {
+    return this._http.get("$/api/certificate/{id}");
   }
 
-  async download(certificateId) {
-    return this._http.get(`/api/certificate/${certificateId}/crt`);
+  async getCrt(certId) {
+    return this._http.get("$/api/certificate/{id}/crt");
   }
 
-  async listAvailable() {
-    return this._http.get("/api/certificate/order");
+  async listOrders(params = {}) {
+    return this._http.get("$/api/certificate/order");
   }
 
-  async order(data) {
-    return this._http.post("/api/certificate/order", data);
+  async createOrder(data) {
+    return this._http.post("$/api/certificate/order", data);
   }
 
-  async listServerSoftware(productId) {
-    return this._http.get(`/api/certificate/order/${productId}/software`);
+  async getOrderSoftware(productId) {
+    return this._http.get("$/api/certificate/order/{product_id}/software");
   }
+
 }
 
 module.exports = { SSLResource };

@@ -4,56 +4,57 @@ const { BaseResource } = require("./base");
 
 class SupportResource extends BaseResource {
   async listTickets(params = {}) {
-    return this._http.get("/api/tickets", params);
+    return this._http.get("$/api/tickets");
   }
 
   async createTicket(data) {
-    return this._http.post("/api/tickets", data);
+    return this._http.post("$/api/tickets", data);
   }
 
   async getTicket(ticketNumber) {
-    return this._http.get(`/api/tickets/${ticketNumber}`);
+    return this._http.get("$/api/tickets/{number}");
   }
 
-  async reply(ticketNumber, message) {
-    return this._http.post(`/api/tickets/${ticketNumber}`, { message });
+  async replyTicket(ticketNumber, data) {
+    return this._http.post("$/api/tickets/{number}", data);
   }
 
   async getAttachment(file) {
     return this._http.get(`/api/ticket/attachment/${file}`);
   }
 
-  async reopen(ticketNumber) {
-    return this._http.put(`/api/tickets/${ticketNumber}/open`);
+  async openTicket(ticketNumber) {
+    return this._http.put("$/api/tickets/{number}/open");
   }
 
-  async close(ticketNumber) {
-    return this._http.put(`/api/tickets/${ticketNumber}/close`);
+  async closeTicket(ticketNumber) {
+    return this._http.put("$/api/tickets/{number}/close");
   }
 
-  async listDepartments() {
-    return this._http.get("/api/ticket/departments");
+  async getDepartments() {
+    return this._http.get("$/api/ticket/departments");
   }
 
-  async listNews() {
-    return this._http.get("/api/news");
+  async listNews(params = {}) {
+    return this._http.get("$/api/news");
   }
 
   async getNews(newsId) {
-    return this._http.get(`/api/news/${newsId}`);
+    return this._http.get("$/api/news/{news_id}");
   }
 
-  async listKnowledgebaseCategories() {
-    return this._http.get("/api/knowledgebase");
+  async listKnowledgebase(params = {}) {
+    return this._http.get("$/api/knowledgebase");
   }
 
   async getKnowledgebaseCategory(categoryId) {
-    return this._http.get(`/api/knowledgebase/${categoryId}`);
+    return this._http.get("$/api/knowledgebase/{category_id}");
   }
 
   async getKnowledgebaseArticle(articleId) {
-    return this._http.get(`/api/knowledgebase/article/${articleId}`);
+    return this._http.get("$/api/knowledgebase/article/{article_id}");
   }
+
 }
 
 module.exports = { SupportResource };

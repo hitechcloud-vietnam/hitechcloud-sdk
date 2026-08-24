@@ -3,93 +3,94 @@
 const { BaseResource } = require("./base");
 
 class DomainsResource extends BaseResource {
+  async whois(domain) {
+    return this._http.get(`/api/whois/${domain}`);
+  }
+
   async list(params = {}) {
-    return this._http.get("/api/domain", params);
+    return this._http.get("$/api/domain");
   }
 
   async get(domainId) {
-    return this._http.get(`/api/domain/${domainId}`);
+    return this._http.get("$/api/domain/{id}");
   }
 
   async getByName(name) {
     return this._http.get(`/api/domain/name/${name}`);
   }
 
-  async whois(domain) {
-    return this._http.get(`/api/whois/${domain}`);
+  async getNameservers(domainId) {
+    return this._http.get("$/api/domain/{id}/ns");
   }
 
-  async whoisLookup(domain) {
-    return this._http.get(`/api/whoislookup/${domain}`);
+  async setNameservers(domainId, data) {
+    return this._http.put("$/api/domain/{id}/ns", data);
+  }
+
+  async getEppCode(domainId) {
+    return this._http.get("$/api/domain/{id}/epp");
+  }
+
+  async sync(domainId) {
+    return this._http.get("$/api/domain/{id}/sync");
+  }
+
+  async getRegLock(domainId) {
+    return this._http.get("$/api/domain/{id}/reglock");
+  }
+
+  async setRegLock(domainId, data) {
+    return this._http.put("$/api/domain/{id}/reglock", data);
+  }
+
+  async toggleIdProtection(domainId, data) {
+    return this._http.put("$/api/domain/{id}/idprotection", data);
+  }
+
+  async getContacts(domainId) {
+    return this._http.get("$/api/domain/{id}/contact");
+  }
+
+  async setContacts(domainId, data) {
+    return this._http.put("$/api/domain/{id}/contact", data);
+  }
+
+  async getEmailForwarding(domainId) {
+    return this._http.get("$/api/domain/{id}/email/forwarding");
+  }
+
+  async setEmailForwarding(domainId, data) {
+    return this._http.put("$/api/domain/{id}/email/forwarding", data);
   }
 
   async checkAvailability(domain) {
     return this._http.get(`/api/domain/availability/${domain}`);
   }
 
-  async getNameservers(domainId) {
-    return this._http.get(`/api/domain/${domainId}/ns`);
+  async listOrders(params = {}) {
+    return this._http.get("$/api/domain/order");
   }
 
-  async updateNameservers(domainId, ns) {
-    return this._http.put(`/api/domain/${domainId}/ns`, ns);
+  async createOrder(data) {
+    return this._http.post("$/api/domain/order", data);
   }
 
-  async getEppCode(domainId) {
-    return this._http.get(`/api/domain/${domainId}/epp`);
+  async getOrderForm(orderId) {
+    return this._http.get("$/api/domain/order/{id}/form");
   }
 
-  async sync(domainId) {
-    return this._http.get(`/api/domain/${domainId}/sync`);
+  async renew(domainId, data) {
+    return this._http.post("$/api/domain/{id}/renew", data);
   }
 
-  async getLock(domainId) {
-    return this._http.get(`/api/domain/${domainId}/reglock`);
-  }
-
-  async updateLock(domainId, reglock) {
-    return this._http.put(`/api/domain/${domainId}/reglock`, { reglock });
-  }
-
-  async updateIdProtection(domainId, idprotection) {
-    return this._http.put(`/api/domain/${domainId}/idprotection`, { idprotection });
-  }
-
-  async getContact(domainId) {
-    return this._http.get(`/api/domain/${domainId}/contact`);
-  }
-
-  async updateContact(domainId, data) {
-    return this._http.put(`/api/domain/${domainId}/contact`, data);
-  }
-
-  async getEmailForwarding(domainId) {
-    return this._http.get(`/api/domain/${domainId}/email/forwarding`);
-  }
-
-  async updateEmailForwarding(domainId, entries) {
-    return this._http.put(`/api/domain/${domainId}/email/forwarding`, { entries });
-  }
-
-  async getAvailableTlds() {
-    return this._http.get("/api/domain/order");
-  }
-
-  async order(domain, years = 1, data = {}) {
-    return this._http.post("/api/domain/order", { domain, years, ...data });
-  }
-
-  async renew(domainId, years = 1) {
-    return this._http.post(`/api/domain/${domainId}/renew`, { years });
-  }
-
-  async getTldForm(tldId) {
-    return this._http.get(`/api/domain/order/${tldId}/form`);
+  async whoisLookup(domain) {
+    return this._http.get(`/api/whoislookup/${domain}`);
   }
 
   async getDocuments(domainId) {
-    return this._http.get(`/api/domain/${domainId}/documents`);
+    return this._http.get("$/api/domain/{id}/documents");
   }
+
 }
 
 module.exports = { DomainsResource };

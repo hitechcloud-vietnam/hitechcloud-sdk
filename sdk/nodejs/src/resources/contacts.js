@@ -4,24 +4,25 @@ const { BaseResource } = require("./base");
 
 class ContactsResource extends BaseResource {
   async list(params = {}) {
-    return this._http.get("/api/contacts", params);
-  }
-
-  async get(contactId) {
-    return this._http.get(`/api/contacts/${contactId}`);
+    return this._http.get("$/api/contact");
   }
 
   async create(data) {
-    return this._http.post("/api/contacts", data);
+    return this._http.post("$/api/contact", data);
+  }
+
+  async getPrivileges() {
+    return this._http.get("$/api/contact/privileges");
+  }
+
+  async get(contactId) {
+    return this._http.get("$/api/contact/{id}");
   }
 
   async update(contactId, data) {
-    return this._http.put(`/api/contacts/${contactId}`, data);
+    return this._http.put("$/api/contact/{id}", data);
   }
 
-  async delete(contactId) {
-    return this._http.delete(`/api/contacts/${contactId}`);
-  }
 }
 
 module.exports = { ContactsResource };
