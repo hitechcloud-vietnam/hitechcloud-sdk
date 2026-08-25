@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseResource {
-    protected final HttpClient httpClient;
+    protected final HttpClient http;
 
-    public BaseResource(HttpClient httpClient) {
-        this.httpClient = httpClient;
+    public BaseResource(HttpClient http) {
+        this.http = http;
     }
 }

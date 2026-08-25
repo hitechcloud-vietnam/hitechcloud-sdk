@@ -3,7 +3,7 @@ namespace HiTechCloud.SDK;
 public class HiTechCloudException : Exception
 {
     public int StatusCode { get; }
-    public object? Data { get; }
+    public new object? Data { get; }
 
     public HiTechCloudException(string message, int statusCode = 0, object? data = null)
         : base(message)

@@ -19,7 +19,10 @@
     "autoload": {
         "psr-4": {
             "HiTechCloud\\SDK\\": "src/"
-        }
+        },
+        "files": [
+            "src/Exceptions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

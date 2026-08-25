@@ -11,6 +11,8 @@ module HiTechCloud
     end
   end
 
+  Error = HiTechCloudError
+
   class AuthenticationError < HiTechCloudError; end
   class AuthorizationError < HiTechCloudError; end
   class NotFoundError < HiTechCloudError; end

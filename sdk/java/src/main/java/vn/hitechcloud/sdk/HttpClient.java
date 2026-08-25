@@ -103,6 +103,10 @@ public class HttpClient {
         return request("GET", path, null, params);
     }
 
+    public Map<String, Object> get(String path) throws HiTechCloudException {
+        return request("GET", path, null, null);
+    }
+
     public Map<String, Object> post(String path, Object body) throws HiTechCloudException {
         return request("POST", path, body, null);
     }

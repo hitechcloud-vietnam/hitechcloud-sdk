@@ -17,14 +17,14 @@ def test_login():
         status=200,
     )
     client = HiTechCloud(base_url=BASE_URL, username="test@example.com", password="pass")
-    assert client._http._token == "test_token_123"
+    assert client._http.session.headers["Authorization"] == "Bearer test_token_123"
 
 
 @responses.activate
 def test_token_auth():
     """Test token-based authentication"""
     client = HiTechCloud(base_url=BASE_URL, token="my_token")
-    assert client._http._token == "my_token"
+    assert client._http.session.headers["Authorization"] == "Bearer my_token"
 
 
 @responses.activate

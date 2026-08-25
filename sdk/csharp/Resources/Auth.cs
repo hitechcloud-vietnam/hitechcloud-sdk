@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace HiTechCloud.SDK.Resources;
 
 public class Auth : BaseResource
@@ -6,7 +9,7 @@ public class Auth : BaseResource
 
     public async Task<Dictionary<string, object?>> LoginAsync(string email, string password)
     {
-        return await Http.PostAsync("/api/login", new Dictionary<string, object> { "email" = email, "password" = password });
+        return await Http.PostAsync("/api/login", new Dictionary<string, object> { ["email"] = email, ["password"] = password });
     }
 
     public async Task<Dictionary<string, object?>> LogoutAsync()
@@ -26,11 +29,11 @@ public class Auth : BaseResource
 
     public async Task<Dictionary<string, object?>> PasswordResetAsync(string email)
     {
-        return await Http.PostAsync("/api/passwordreset", new Dictionary<string, object> { "email" = email });
+        return await Http.PostAsync("/api/passwordreset", new Dictionary<string, object> { ["email"] = email });
     }
 
     public async Task<Dictionary<string, object?>> SignupAsync(string email, string password, string firstName, string lastName)
     {
-        return await Http.PostAsync("/api/signup", new Dictionary<string, object> { "email" = email, "password" = password, "firstName" = firstName, "lastName" = lastName });
+        return await Http.PostAsync("/api/signup", new Dictionary<string, object> { ["email"] = email, ["password"] = password, ["firstName"] = firstName, ["lastName"] = lastName });
     }
 }

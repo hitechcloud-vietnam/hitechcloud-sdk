@@ -83,13 +83,7 @@ class HiTechCloud:
             max_retries=max_retries,
         )
 
-        # Authenticate
-        if token:
-            self._http.set_token(token)
-        elif username and password:
-            self.login(username, password)
-
-        # Initialize resource groups
+        # Initialize resource groups (must be before login)
         self.auth = AuthResource(self._http)
         self.users = UsersResource(self._http)
         self.services = ServicesResource(self._http)
@@ -128,6 +122,12 @@ class HiTechCloud:
         self.proxmox = ProxmoxResource(self._http)
         self.ipam = IpamResource(self._http)
         self.partner = PartnerResource(self._http)
+
+        # Authenticate (after resources are initialized)
+        if token:
+            self._http.set_token(token)
+        elif username and password:
+            self.login(username, password)
 
     def login(self, username: str, password: str) -> dict:
         """Authenticate and store token"""

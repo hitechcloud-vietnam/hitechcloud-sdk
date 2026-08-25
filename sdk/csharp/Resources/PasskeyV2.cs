@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace HiTechCloud.SDK.Resources;
 
 public class PasskeyV2 : BaseResource

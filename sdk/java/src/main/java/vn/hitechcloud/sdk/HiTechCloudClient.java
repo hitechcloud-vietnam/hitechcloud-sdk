@@ -97,7 +97,7 @@ public class HiTechCloudClient {
         this.partner = new Partner(httpClient);
     }
 
-    public Map<String, Object> login(String email, String password) throws HiTechCloudException {
+    public Map<String, Object> login(String email, String password) throws Exception {
         Map<String, Object> result = auth.login(email, password);
         if (result != null && result.containsKey("token")) {
             httpClient.setToken(result.get("token").toString());
@@ -105,7 +105,7 @@ public class HiTechCloudClient {
         return result;
     }
 
-    public Map<String, Object> logout() throws HiTechCloudException {
+    public Map<String, Object> logout() throws Exception {
         Map<String, Object> result = auth.logout();
         httpClient.clearToken();
         return result;

@@ -4,9 +4,9 @@ namespace HiTechCloud\SDK\Tests;
 
 use PHPUnit\Framework\TestCase;
 use HiTechCloud\SDK\HiTechCloud;
-use HiTechCloud\SDK\Exceptions\HiTechCloudException;
-use HiTechCloud\SDK\Exceptions\AuthenticationException;
-use HiTechCloud\SDK\Exceptions\NotFoundException;
+use HiTechCloud\SDK\HiTechCloudException;
+use HiTechCloud\SDK\AuthenticationException;
+use HiTechCloud\SDK\NotFoundException;
 
 class HiTechCloudTest extends TestCase
 {

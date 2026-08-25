@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace HiTechCloud.SDK;
 
-internal class HttpClientWrapper
+public class HttpClientWrapper
 {
     private readonly HttpClient _httpClient;
     private readonly string _baseUrl;
