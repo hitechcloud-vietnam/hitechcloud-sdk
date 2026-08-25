@@ -12,7 +12,7 @@ BASE_URL = "https://api.hitechcloud.vn"
 def test_login():
     """Test login flow"""
     responses.post(
-        f"{BASE_URL}/api/auth/login",
+        f"{BASE_URL}/api/login",
         json={"token": "test_token_123", "user": {"id": 1, "email": "test@example.com"}},
         status=200,
     )
@@ -31,7 +31,7 @@ def test_token_auth():
 def test_services_list():
     """Test listing services"""
     responses.post(
-        f"{BASE_URL}/api/auth/login",
+        f"{BASE_URL}/api/login",
         json={"token": "tok", "user": {}},
         status=200,
     )
@@ -63,7 +63,7 @@ def test_domains_whois():
 def test_authentication_error():
     """Test 401 error handling"""
     responses.post(
-        f"{BASE_URL}/api/auth/login",
+        f"{BASE_URL}/api/login",
         json={"error": "Invalid credentials"},
         status=401,
     )
