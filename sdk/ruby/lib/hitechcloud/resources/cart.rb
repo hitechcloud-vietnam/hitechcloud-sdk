@@ -1,31 +1,36 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Cart < Base
-      def get
-        @http.get('/api/cart')
-      end
+  # Cart resource
+  class CartResource < BaseResource
 
-      def add(data)
-        @http.post('/api/cart', body: data)
-      end
-
-      def remove(item_id)
-        @http.delete("/api/cart/#{item_id}")
-      end
-
-      def apply_promo(code)
-        @http.post('/api/cart/promo', body: { code: code })
-      end
-
-      def checkout(data)
-        @http.post('/api/cart/checkout', body: data)
-      end
-
-      def get_payment_methods
-        @http.get('/api/cart/payment_methods')
-      end
+    # List categories
+    def categories
+      @http.get("/api/category")
     end
+
+    # List products
+    def products(category_id)
+      @http.get("/api/category/%{category_id}/product" % { category_id: category_id })
+    end
+
+    # Get order info
+    def order_info(product_id)
+      @http.get("/api/order/%{product_id}" % { product_id: product_id })
+    end
+
+    # Create order
+    def create_order(product_id, data)
+      @http.post("/api/order/%{product_id}" % { product_id: product_id }, data)
+    end
+
+    # Checkout
+    def checkout(data)
+      @http.post("/api/order", data)
+    end
+
+    # Get quote
+    def quote(data)
+      @http.post("/api/quote", data)
+    end
+
   end
 end

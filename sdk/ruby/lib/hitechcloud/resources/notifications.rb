@@ -1,19 +1,21 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Notifications < Base
-      def list(params = {})
-        @http.get('/api/notifications', params: params)
-      end
+  # Notifications resource
+  class NotificationsResource < BaseResource
 
-      def get_preferences
-        @http.get('/api/notifications/preferences')
-      end
-
-      def update_preferences(data)
-        @http.put('/api/notifications/preferences', body: data)
-      end
+    # List notifications
+    def notifications
+      @http.get("/api/notifications")
     end
+
+    # Get new notifications
+    def new_notifications
+      @http.get("/api/notifications/new")
+    end
+
+    # Acknowledge notification
+    def acknowledge(id)
+      @http.put("/api/notifications/%{id}/ack" % { id: id })
+    end
+
   end
 end

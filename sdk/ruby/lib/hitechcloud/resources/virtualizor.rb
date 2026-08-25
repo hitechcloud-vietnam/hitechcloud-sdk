@@ -1,23 +1,26 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Virtualizor < Base
-      def list(params = {})
-        @http.get('/api/virtualizor', params: params)
-      end
+  # Virtualizor resource
+  class VirtualizorResource < BaseResource
 
-      def get(vps_id)
-        @http.get("/api/virtualizor/#{vps_id}")
-      end
-
-      def start(vps_id)
-        @http.post("/api/virtualizor/#{vps_id}/start")
-      end
-
-      def stop(vps_id)
-        @http.post("/api/virtualizor/#{vps_id}/stop")
-      end
+    # Suspend VM
+    def suspend(id, vmid)
+      @http.post("/api/service/%{id}/vms/%{vmid}/suspend" % { id: id, vmid: vmid })
     end
+
+    # Unsuspend VM
+    def unsuspend(id, vmid)
+      @http.post("/api/service/%{id}/vms/%{vmid}/unsuspend" % { id: id, vmid: vmid })
+    end
+
+    # Get rebuild options
+    def rebuild(id, vmid)
+      @http.get("/api/service/%{id}/vms/%{vmid}/rebuild" % { id: id, vmid: vmid })
+    end
+
+    # Add SSH key
+    def add_ssh_key(id, vmid, data)
+      @http.post("/api/service/%{id}/vms/%{vmid}/addsshkey" % { id: id, vmid: vmid }, data)
+    end
+
   end
 end

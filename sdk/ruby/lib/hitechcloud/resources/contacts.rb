@@ -1,27 +1,31 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Contacts < Base
-      def list(params = {})
-        @http.get('/api/contact', params: params)
-      end
+  # Contacts resource
+  class ContactsResource < BaseResource
 
-      def get(contact_id)
-        @http.get("/api/contact/#{contact_id}")
-      end
-
-      def create(data)
-        @http.post('/api/contact', body: data)
-      end
-
-      def update(contact_id, data)
-        @http.put("/api/contact/#{contact_id}", body: data)
-      end
-
-      def delete(contact_id)
-        @http.delete("/api/contact/#{contact_id}")
-      end
+    # List contacts
+    def contacts
+      @http.get("/api/contact")
     end
+
+    # Create contact
+    def create_contact(data)
+      @http.post("/api/contact", data)
+    end
+
+    # Get privileges
+    def privileges
+      @http.get("/api/contact/privileges")
+    end
+
+    # Get contact
+    def contact(id)
+      @http.get("/api/contact/%{id}" % { id: id })
+    end
+
+    # Update contact
+    def update_contact(id, data)
+      @http.put("/api/contact/%{id}" % { id: id }, data)
+    end
+
   end
 end

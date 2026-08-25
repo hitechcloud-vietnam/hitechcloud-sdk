@@ -1,31 +1,36 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class CloudGpu < Base
-      def list(params = {})
-        @http.get('/api/cloudgpu', params: params)
-      end
+  # CloudGpu resource
+  class CloudGpuResource < BaseResource
 
-      def get(gpu_id)
-        @http.get("/api/cloudgpu/#{gpu_id}")
-      end
-
-      def start(gpu_id)
-        @http.post("/api/cloudgpu/#{gpu_id}/start")
-      end
-
-      def stop(gpu_id)
-        @http.post("/api/cloudgpu/#{gpu_id}/stop")
-      end
-
-      def restart(gpu_id)
-        @http.post("/api/cloudgpu/#{gpu_id}/restart")
-      end
-
-      def get_console(gpu_id)
-        @http.get("/api/cloudgpu/#{gpu_id}/console")
-      end
+    # Reboot VM
+    def reboot(id, data)
+      @http.put("/api/service/%{id}/vms/reboot" % { id: id }, data)
     end
+
+    # Stop VM
+    def stop(id, data)
+      @http.put("/api/service/%{id}/vms/stop" % { id: id }, data)
+    end
+
+    # Start VM
+    def start(id, data)
+      @http.put("/api/service/%{id}/vms/start" % { id: id }, data)
+    end
+
+    # Get firewall rules
+    def firewall(id)
+      @http.get("/api/service/%{id}/vms/firewall" % { id: id })
+    end
+
+    # Create firewall rule
+    def create_firewall(id, data)
+      @http.post("/api/service/%{id}/vms/firewall" % { id: id }, data)
+    end
+
+    # Delete firewall rule
+    def delete_firewall(id, position)
+      @http.delete("/api/service/%{id}/vms/firewall/%{position}" % { id: id, position: position })
+    end
+
   end
 end

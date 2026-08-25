@@ -1,47 +1,56 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class DnsManage < Base
-      def get_records(domain_id)
-        @http.get("/api/domain/#{domain_id}/dns")
-      end
+  # DnsManage resource
+  class DnsManageResource < BaseResource
 
-      def create_record(domain_id, data)
-        @http.post("/api/domain/#{domain_id}/dns", body: data)
-      end
-
-      def update_record(domain_id, record_id, data)
-        @http.put("/api/domain/#{domain_id}/dns/#{record_id}", body: data)
-      end
-
-      def delete_record(domain_id, record_id)
-        @http.delete("/api/domain/#{domain_id}/dns/#{record_id}")
-      end
-
-      def get_record_types
-        @http.get('/api/dns/record/types')
-      end
-
-      def get_dnssec_flags
-        @http.get('/api/dnssec/flags')
-      end
-
-      def get_dnssec_records(domain_id)
-        @http.get("/api/domain/#{domain_id}/dnssec")
-      end
-
-      def create_dnssec_record(domain_id, data)
-        @http.post("/api/domain/#{domain_id}/dnssec", body: data)
-      end
-
-      def delete_dnssec_record(domain_id, record_id)
-        @http.delete("/api/domain/#{domain_id}/dnssec/#{record_id}")
-      end
-
-      def register_nameserver(domain_id, hostname, ips)
-        @http.post("/api/domain/#{domain_id}/registerns", body: { hostname: hostname, ips: ips })
-      end
+    # Register DNS
+    def register_dns(id, data)
+      @http.post("/api/domain/%{id}/reg" % { id: id }, data)
     end
+
+    # Get DNS records
+    def dns_records(id)
+      @http.get("/api/domain/%{id}/dns" % { id: id })
+    end
+
+    # Create DNS record
+    def create_dns_record(id, data)
+      @http.post("/api/domain/%{id}/dns" % { id: id }, data)
+    end
+
+    # Update DNS record
+    def update_dns_record(id, index, data)
+      @http.put("/api/domain/%{id}/dns/%{index}" % { id: id, index: index }, data)
+    end
+
+    # Delete DNS record
+    def delete_dns_record(id, index)
+      @http.delete("/api/domain/%{id}/dns/%{index}" % { id: id, index: index })
+    end
+
+    # Get DNS types
+    def dns_types(id)
+      @http.get("/api/domain/%{id}/dns/types" % { id: id })
+    end
+
+    # Get DNSSEC flags
+    def dnssec_flags(id)
+      @http.get("/api/domain/%{id}/dnssec/flags" % { id: id })
+    end
+
+    # Get DNSSEC
+    def dnssec(id)
+      @http.get("/api/domain/%{id}/dnssec" % { id: id })
+    end
+
+    # Create DNSSEC
+    def create_dnssec(id, data)
+      @http.post("/api/domain/%{id}/dnssec" % { id: id }, data)
+    end
+
+    # Delete DNSSEC
+    def delete_dnssec(id)
+      @http.delete("/api/domain/%{id}/dnssec" % { id: id })
+    end
+
   end
 end

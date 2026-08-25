@@ -1,19 +1,21 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Users < Base
-      def get_details
-        @http.get('/api/user')
-      end
+  # Users resource
+  class UsersResource < BaseResource
 
-      def update_details(data)
-        @http.put('/api/user', body: data)
-      end
-
-      def get_logs
-        @http.get('/api/user/logs')
-      end
+    # Get user details
+    def details
+      @http.get("/api/details")
     end
+
+    # Update user details
+    def update_details(data)
+      @http.put("/api/details", data)
+    end
+
+    # Get user logs
+    def logs
+      @http.get("/api/logs")
+    end
+
   end
 end

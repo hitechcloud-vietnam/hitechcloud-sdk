@@ -1,31 +1,36 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Ssl < Base
-      def list(params = {})
-        @http.get('/api/ssl', params: params)
-      end
+  # Ssl resource
+  class SslResource < BaseResource
 
-      def get(ssl_id)
-        @http.get("/api/ssl/#{ssl_id}")
-      end
-
-      def download(ssl_id)
-        @http.get("/api/ssl/#{ssl_id}/download")
-      end
-
-      def list_available(params = {})
-        @http.get('/api/ssl/available', params: params)
-      end
-
-      def order(data)
-        @http.post('/api/ssl/order', body: data)
-      end
-
-      def list_server_software
-        @http.get('/api/ssl/serversoftware')
-      end
+    # List certificates
+    def certificates
+      @http.get("/api/certificate")
     end
+
+    # Get certificate
+    def certificate(id)
+      @http.get("/api/certificate/%{id}" % { id: id })
+    end
+
+    # Get certificate CRT
+    def certificate_crt(id)
+      @http.get("/api/certificate/%{id}/crt" % { id: id })
+    end
+
+    # List SSL orders
+    def orders
+      @http.get("/api/certificate/order")
+    end
+
+    # Create SSL order
+    def create_order(data)
+      @http.post("/api/certificate/order", data)
+    end
+
+    # Get order software
+    def order_software(product_id)
+      @http.get("/api/certificate/order/%{product_id}/software" % { product_id: product_id })
+    end
+
   end
 end

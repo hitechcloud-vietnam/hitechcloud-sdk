@@ -1,31 +1,36 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Affiliate < Base
-      def get_details
-        @http.get('/api/affiliate')
-      end
+  # Affiliate resource
+  class AffiliateResource < BaseResource
 
-      def get_balance
-        @http.get('/api/affiliate/balance')
-      end
-
-      def get_payout
-        @http.get('/api/affiliate/payout')
-      end
-
-      def update_payout(data)
-        @http.put('/api/affiliate/payout', body: data)
-      end
-
-      def list_referrals(params = {})
-        @http.get('/api/affiliate/referrals', params: params)
-      end
-
-      def list_transactions(params = {})
-        @http.get('/api/affiliate/transactions', params: params)
-      end
+    # Get affiliate summary
+    def summary
+      @http.get("/api/affiliates/summary")
     end
+
+    # Get campaigns
+    def campaigns
+      @http.get("/api/affiliates/campaigns")
+    end
+
+    # Get commissions
+    def commissions
+      @http.get("/api/affiliates/commissions")
+    end
+
+    # Get payouts
+    def payouts
+      @http.get("/api/affiliates/payouts")
+    end
+
+    # Get vouchers
+    def vouchers
+      @http.get("/api/affiliates/vouchers")
+    end
+
+    # Get commission plans
+    def commission_plans
+      @http.get("/api/affiliates/commissionplans")
+    end
+
   end
 end

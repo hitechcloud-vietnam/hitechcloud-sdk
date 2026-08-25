@@ -1,43 +1,51 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Services < Base
-      def list(params = {})
-        @http.get('/api/service', params: params)
-      end
+  # Services resource
+  class ServicesResource < BaseResource
 
-      def get(service_id)
-        @http.get("/api/service/#{service_id}")
-      end
-
-      def list_methods
-        @http.get('/api/service/methods')
-      end
-
-      def cancel(service_id, reason = '')
-        @http.post("/api/service/#{service_id}/cancel", body: { reason: reason })
-      end
-
-      def get_label(service_id)
-        @http.get("/api/service/#{service_id}/label")
-      end
-
-      def set_label(service_id, label)
-        @http.put("/api/service/#{service_id}/label", body: { label: label })
-      end
-
-      def renew(service_id)
-        @http.post("/api/service/#{service_id}/renew")
-      end
-
-      def list_billing_cycles(service_id)
-        @http.get("/api/service/#{service_id}/billing_cycles")
-      end
-
-      def change_billing_cycle(service_id, billing_cycle)
-        @http.put("/api/service/#{service_id}/billing_cycles", body: { billing_cycle: billing_cycle })
-      end
+    # List services
+    def services
+      @http.get("/api/service")
     end
+
+    # Get service
+    def service(id)
+      @http.get("/api/service/%{id}" % { id: id })
+    end
+
+    # Get service methods
+    def methods(id)
+      @http.get("/api/service/%{id}/methods" % { id: id })
+    end
+
+    # Cancel service
+    def cancel(id, data)
+      @http.post("/api/service/%{id}/cancel" % { id: id }, data)
+    end
+
+    # Get label
+    def label(id)
+      @http.get("/api/service/%{id}/label" % { id: id })
+    end
+
+    # Set label
+    def set_label(id, data)
+      @http.post("/api/service/%{id}/label" % { id: id }, data)
+    end
+
+    # Renew service
+    def renew(id, data)
+      @http.post("/api/service/%{id}/renew" % { id: id }, data)
+    end
+
+    # Get cycle
+    def cycle(id)
+      @http.get("/api/service/%{id}/cycle" % { id: id })
+    end
+
+    # Set cycle
+    def set_cycle(id, data)
+      @http.post("/api/service/%{id}/cycle" % { id: id }, data)
+    end
+
   end
 end

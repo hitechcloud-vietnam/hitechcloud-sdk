@@ -1,59 +1,71 @@
-# frozen_string_literal: true
-
 module HiTechCloud
-  module Resources
-    class Support < Base
-      def list_departments
-        @http.get('/api/support/departments')
-      end
+  # Support resource
+  class SupportResource < BaseResource
 
-      def list_tickets(params = {})
-        @http.get('/api/support/tickets', params: params)
-      end
-
-      def get_ticket(ticket_id)
-        @http.get("/api/support/tickets/#{ticket_id}")
-      end
-
-      def create_ticket(data)
-        @http.post('/api/support/tickets', body: data)
-      end
-
-      def reply_ticket(ticket_id, message)
-        @http.post("/api/support/tickets/#{ticket_id}", body: { message: message })
-      end
-
-      def close_ticket(ticket_id)
-        @http.post("/api/support/tickets/#{ticket_id}/close")
-      end
-
-      def list_news(params = {})
-        @http.get('/api/support/news', params: params)
-      end
-
-      def get_news(news_id)
-        @http.get("/api/support/news/#{news_id}")
-      end
-
-      def list_kb_categories
-        @http.get('/api/support/kb/categories')
-      end
-
-      def list_kb_articles(params = {})
-        @http.get('/api/support/kb/articles', params: params)
-      end
-
-      def get_kb_article(article_id)
-        @http.get("/api/support/kb/articles/#{article_id}")
-      end
-
-      def search_kb(query)
-        @http.get('/api/support/kb/search', params: { query: query })
-      end
-
-      def list_announcements(params = {})
-        @http.get('/api/support/announcements', params: params)
-      end
+    # List tickets
+    def tickets
+      @http.get("/api/tickets")
     end
+
+    # Create ticket
+    def create_ticket(data)
+      @http.post("/api/tickets", data)
+    end
+
+    # Get ticket
+    def ticket(number)
+      @http.get("/api/tickets/%{number}" % { number: number })
+    end
+
+    # Reply to ticket
+    def reply_ticket(number, data)
+      @http.post("/api/tickets/%{number}" % { number: number }, data)
+    end
+
+    # Get attachment
+    def ticket_attachment(file)
+      @http.get("/api/ticket/attachment/%{file}" % { file: file })
+    end
+
+    # Open ticket
+    def open_ticket(number)
+      @http.put("/api/tickets/%{number}/open" % { number: number })
+    end
+
+    # Close ticket
+    def close_ticket(number)
+      @http.put("/api/tickets/%{number}/close" % { number: number })
+    end
+
+    # Get departments
+    def departments
+      @http.get("/api/ticket/departments")
+    end
+
+    # List news
+    def news
+      @http.get("/api/news")
+    end
+
+    # Get news item
+    def news_item(news_id)
+      @http.get("/api/news/%{news_id}" % { news_id: news_id })
+    end
+
+    # List knowledgebase
+    def knowledgebase
+      @http.get("/api/knowledgebase")
+    end
+
+    # Get KB category
+    def knowledgebase_category(category_id)
+      @http.get("/api/knowledgebase/%{category_id}" % { category_id: category_id })
+    end
+
+    # Get KB article
+    def knowledgebase_article(article_id)
+      @http.get("/api/knowledgebase/article/%{article_id}" % { article_id: article_id })
+    end
+
   end
 end
