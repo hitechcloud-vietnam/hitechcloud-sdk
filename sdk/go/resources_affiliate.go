@@ -1,30 +1,36 @@
 package hitechcloud
 
-// AffiliateResource handles affiliate endpoints
+// AffiliateResource handles Affiliate endpoints
 type AffiliateResource struct {
 	client *HTTPClient
 }
 
-func (r *AffiliateResource) GetDetails() (map[string]interface{}, error) {
-	return r.client.Get("/api/affiliate", nil)
+// GetSummary - Get affiliate summary
+func (r *AffiliateResource) GetSummary()(map[string]interface{}, error) {
+	return r.client.Get("/api/affiliates/summary", nil)
 }
 
-func (r *AffiliateResource) GetBalance() (map[string]interface{}, error) {
-	return r.client.Get("/api/affiliate/balance", nil)
+// ListCampaigns - List campaigns
+func (r *AffiliateResource) ListCampaigns()(map[string]interface{}, error) {
+	return r.client.Get("/api/affiliates/campaigns", nil)
 }
 
-func (r *AffiliateResource) GetPayout() (map[string]interface{}, error) {
-	return r.client.Get("/api/affiliate/payout", nil)
+// ListCommissions - List commissions
+func (r *AffiliateResource) ListCommissions(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/affiliates/commissions", params)
 }
 
-func (r *AffiliateResource) UpdatePayout(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Put("/api/affiliate/payout", data)
+// ListPayouts - List payouts
+func (r *AffiliateResource) ListPayouts()(map[string]interface{}, error) {
+	return r.client.Get("/api/affiliates/payouts", nil)
 }
 
-func (r *AffiliateResource) ListReferrals(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/affiliate/referrals", params)
+// ListVouchers - List vouchers
+func (r *AffiliateResource) ListVouchers()(map[string]interface{}, error) {
+	return r.client.Get("/api/affiliates/vouchers", nil)
 }
 
-func (r *AffiliateResource) ListTransactions(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/affiliate/transactions", params)
+// ListCommissionPlans - List commission plans
+func (r *AffiliateResource) ListCommissionPlans()(map[string]interface{}, error) {
+	return r.client.Get("/api/affiliates/commissionplans", nil)
 }

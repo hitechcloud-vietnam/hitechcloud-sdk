@@ -2,39 +2,47 @@ package hitechcloud
 
 import "fmt"
 
-// DnsResource handles DNS zone endpoints
+// DnsResource handles Dns endpoints
 type DnsResource struct {
 	client *HTTPClient
 }
 
-func (r *DnsResource) List(params map[string]string) (map[string]interface{}, error) {
+// ListZones - List DNS zones
+func (r *DnsResource) ListZones(params map[string]string )(map[string]interface{}, error) {
 	return r.client.Get("/api/dns", params)
 }
 
-func (r *DnsResource) ListForService(serviceID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/dns/service/%d", serviceID), nil)
+// CreateZone - Create DNS zone
+func (r *DnsResource) CreateZone(serviceId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/service/%d/dns", serviceId), data)
 }
 
-func (r *DnsResource) AddZone(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post("/api/dns", data)
+// GetZones - Get service DNS zones
+func (r *DnsResource) GetZones(serviceId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/service/%d/dns", serviceId), nil)
 }
 
-func (r *DnsResource) GetZone(zoneID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/dns/%d", zoneID), nil)
+// GetZone - Get DNS zone
+func (r *DnsResource) GetZone(serviceId int, zoneId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/service/%d/dns/%d", serviceId, zoneId), nil)
 }
 
-func (r *DnsResource) DeleteZone(zoneID int) (map[string]interface{}, error) {
-	return r.client.Delete(fmt.Sprintf("/api/dns/%d", zoneID))
+// DeleteZone - Delete DNS zone
+func (r *DnsResource) DeleteZone(serviceId int, zoneId int )(map[string]interface{}, error) {
+	return r.client.Delete(fmt.Sprintf("/api/service/%d/dns/%d", serviceId, zoneId))
 }
 
-func (r *DnsResource) AddRecord(zoneID int, data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/dns/%d/records", zoneID), data)
+// CreateRecord - Create record
+func (r *DnsResource) CreateRecord(serviceId int, zoneId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/service/%d/dns/%d/records", serviceId, zoneId), data)
 }
 
-func (r *DnsResource) EditRecord(zoneID int, recordID int, data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Put(fmt.Sprintf("/api/dns/%d/records/%d", zoneID, recordID), data)
+// UpdateRecord - Update record
+func (r *DnsResource) UpdateRecord(serviceId int, zoneId int, recordId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/service/%d/dns/%d/records/%d", serviceId, zoneId, recordId), data)
 }
 
-func (r *DnsResource) DeleteRecord(zoneID int, recordID int) (map[string]interface{}, error) {
-	return r.client.Delete(fmt.Sprintf("/api/dns/%d/records/%d", zoneID, recordID))
+// DeleteRecord - Delete record
+func (r *DnsResource) DeleteRecord(serviceId int, zoneId int, recordId int )(map[string]interface{}, error) {
+	return r.client.Delete(fmt.Sprintf("/api/service/%d/dns/%d/records/%d", serviceId, zoneId, recordId))
 }

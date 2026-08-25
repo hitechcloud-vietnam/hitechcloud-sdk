@@ -1,35 +1,41 @@
 package hitechcloud
 
-// AuthResource handles authentication endpoints
+// AuthResource handles Auth endpoints
 type AuthResource struct {
 	client *HTTPClient
 }
 
-func (r *AuthResource) Login(email, password string) (map[string]interface{}, error) {
-	return r.client.Post("/api/auth/login", map[string]string{
+// Login - Login
+func (r *AuthResource) Login(email string, password string) (map[string]interface{}, error) {
+	return r.client.Post("/api/login", map[string]string{
 		"email":    email,
 		"password": password,
 	})
 }
 
+// Logout - Logout
 func (r *AuthResource) Logout() (map[string]interface{}, error) {
-	return r.client.Post("/api/auth/logout", nil)
+	return r.client.Post("/api/logout", nil)
 }
 
+// RefreshToken - Refresh token
 func (r *AuthResource) RefreshToken() (map[string]interface{}, error) {
-	return r.client.Post("/api/auth/refresh", nil)
+	return r.client.Post("/api/token", nil)
 }
 
+// RevokeToken - Revoke token
 func (r *AuthResource) RevokeToken() (map[string]interface{}, error) {
-	return r.client.Post("/api/auth/revoke", nil)
+	return r.client.Post("/api/revoke", nil)
 }
 
+// PasswordReset - Password reset
 func (r *AuthResource) PasswordReset(email string) (map[string]interface{}, error) {
-	return r.client.Post("/api/auth/password/reset", map[string]string{"email": email})
+	return r.client.Post("/api/passwordreset", map[string]string{"email": email})
 }
 
-func (r *AuthResource) Signup(email, password, firstName, lastName string) (map[string]interface{}, error) {
-	return r.client.Post("/api/auth/signup", map[string]string{
+// Signup - Signup
+func (r *AuthResource) Signup(email string, password string, firstName string, lastName string) (map[string]interface{}, error) {
+	return r.client.Post("/api/signup", map[string]string{
 		"email":      email,
 		"password":   password,
 		"first_name": firstName,

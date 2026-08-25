@@ -2,31 +2,37 @@ package hitechcloud
 
 import "fmt"
 
-// SslResource handles SSL certificate endpoints
+// SslResource handles Ssl endpoints
 type SslResource struct {
 	client *HTTPClient
 }
 
-func (r *SslResource) List(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/ssl", params)
+// List - List certificates
+func (r *SslResource) List(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/certificate", params)
 }
 
-func (r *SslResource) Get(sslID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/ssl/%d", sslID), nil)
+// Get - Get certificate
+func (r *SslResource) Get(certId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/certificate/%d", certId), nil)
 }
 
-func (r *SslResource) Download(sslID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/ssl/%d/download", sslID), nil)
+// GetCrt - Get certificate CRT
+func (r *SslResource) GetCrt(certId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/certificate/%d/crt", certId), nil)
 }
 
-func (r *SslResource) ListAvailable(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/ssl/available", params)
+// ListOrders - List SSL orders
+func (r *SslResource) ListOrders(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/certificate/order", params)
 }
 
-func (r *SslResource) Order(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post("/api/ssl/order", data)
+// CreateOrder - Create SSL order
+func (r *SslResource) CreateOrder(data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post("/api/certificate/order", data)
 }
 
-func (r *SslResource) ListServerSoftware() (map[string]interface{}, error) {
-	return r.client.Get("/api/ssl/serversoftware", nil)
+// GetOrderSoftware - Get order software
+func (r *SslResource) GetOrderSoftware(productId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/certificate/order/%d/software", productId), nil)
 }

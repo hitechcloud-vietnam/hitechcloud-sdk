@@ -2,59 +2,72 @@ package hitechcloud
 
 import "fmt"
 
-// SupportResource handles support endpoints
+// SupportResource handles Support endpoints
 type SupportResource struct {
 	client *HTTPClient
 }
 
-func (r *SupportResource) ListDepartments() (map[string]interface{}, error) {
-	return r.client.Get("/api/support/departments", nil)
+// ListTickets - List tickets
+func (r *SupportResource) ListTickets(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/tickets", params)
 }
 
-func (r *SupportResource) ListTickets(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/support/tickets", params)
+// CreateTicket - Create ticket
+func (r *SupportResource) CreateTicket(data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post("/api/tickets", data)
 }
 
-func (r *SupportResource) GetTicket(ticketID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/support/tickets/%d", ticketID), nil)
+// GetTicket - Get ticket
+func (r *SupportResource) GetTicket(ticketNumber string )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/tickets/%s", ticketNumber), nil)
 }
 
-func (r *SupportResource) CreateTicket(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post("/api/support/tickets", data)
+// ReplyTicket - Reply to ticket
+func (r *SupportResource) ReplyTicket(ticketNumber string, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/tickets/%s", ticketNumber), data)
 }
 
-func (r *SupportResource) ReplyTicket(ticketID int, message string) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/support/tickets/%d", ticketID), map[string]string{"message": message})
+// GetAttachment - Get attachment
+func (r *SupportResource) GetAttachment(file string )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/ticket/attachment/%s", file), nil)
 }
 
-func (r *SupportResource) CloseTicket(ticketID int) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/support/tickets/%d/close", ticketID), nil)
+// OpenTicket - Open ticket
+func (r *SupportResource) OpenTicket(ticketNumber string )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/tickets/%s/open", ticketNumber), nil)
 }
 
-func (r *SupportResource) ListNews(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/support/news", params)
+// CloseTicket - Close ticket
+func (r *SupportResource) CloseTicket(ticketNumber string )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/tickets/%s/close", ticketNumber), nil)
 }
 
-func (r *SupportResource) GetNews(newsID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/support/news/%d", newsID), nil)
+// GetDepartments - Get departments
+func (r *SupportResource) GetDepartments()(map[string]interface{}, error) {
+	return r.client.Get("/api/ticket/departments", nil)
 }
 
-func (r *SupportResource) ListKbCategories() (map[string]interface{}, error) {
-	return r.client.Get("/api/support/kb/categories", nil)
+// ListNews - List news
+func (r *SupportResource) ListNews(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/news", params)
 }
 
-func (r *SupportResource) ListKbArticles(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/support/kb/articles", params)
+// GetNews - Get news article
+func (r *SupportResource) GetNews(newsId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/news/%d", newsId), nil)
 }
 
-func (r *SupportResource) GetKbArticle(articleID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/support/kb/articles/%d", articleID), nil)
+// ListKnowledgebase - List knowledgebase
+func (r *SupportResource) ListKnowledgebase(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/knowledgebase", params)
 }
 
-func (r *SupportResource) SearchKb(query string) (map[string]interface{}, error) {
-	return r.client.Get("/api/support/kb/search", map[string]string{"query": query})
+// GetKnowledgebaseCategory - Get KB category
+func (r *SupportResource) GetKnowledgebaseCategory(categoryId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/knowledgebase/%d", categoryId), nil)
 }
 
-func (r *SupportResource) ListAnnouncements(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/support/announcements", params)
+// GetKnowledgebaseArticle - Get KB article
+func (r *SupportResource) GetKnowledgebaseArticle(articleId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/knowledgebase/article/%d", articleId), nil)
 }

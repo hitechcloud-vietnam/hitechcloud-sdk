@@ -2,50 +2,57 @@ package hitechcloud
 
 import "fmt"
 
-// DnsManageResource handles DNS management endpoints
+// DnsManageResource handles DnsManage endpoints
 type DnsManageResource struct {
 	client *HTTPClient
 }
 
-func (r *DnsManageResource) GetRecords(domainID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/domain/%d/dns", domainID), nil)
+// RegisterNameservers - Register nameservers
+func (r *DnsManageResource) RegisterNameservers(domainId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/domain/%d/reg", domainId), data)
 }
 
-func (r *DnsManageResource) CreateRecord(domainID int, data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/domain/%d/dns", domainID), data)
+// GetRecords - Get DNS records
+func (r *DnsManageResource) GetRecords(domainId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/domain/%d/dns", domainId), nil)
 }
 
-func (r *DnsManageResource) UpdateRecord(domainID int, recordID int, data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Put(fmt.Sprintf("/api/domain/%d/dns/%d", domainID, recordID), data)
+// CreateRecord - Create DNS record
+func (r *DnsManageResource) CreateRecord(domainId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/domain/%d/dns", domainId), data)
 }
 
-func (r *DnsManageResource) DeleteRecord(domainID int, recordID int) (map[string]interface{}, error) {
-	return r.client.Delete(fmt.Sprintf("/api/domain/%d/dns/%d", domainID, recordID))
+// UpdateRecord - Update DNS record
+func (r *DnsManageResource) UpdateRecord(domainId int, index int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/domain/%d/dns/%d", domainId, index), data)
 }
 
-func (r *DnsManageResource) GetRecordTypes() (map[string]interface{}, error) {
-	return r.client.Get("/api/dns/record/types", nil)
+// DeleteRecord - Delete DNS record
+func (r *DnsManageResource) DeleteRecord(domainId int, index int )(map[string]interface{}, error) {
+	return r.client.Delete(fmt.Sprintf("/api/domain/%d/dns/%d", domainId, index))
 }
 
-func (r *DnsManageResource) GetDnssecFlags() (map[string]interface{}, error) {
-	return r.client.Get("/api/dnssec/flags", nil)
+// GetRecordTypes - Get record types
+func (r *DnsManageResource) GetRecordTypes(domainId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/domain/%d/dns/types", domainId), nil)
 }
 
-func (r *DnsManageResource) GetDnssecRecords(domainID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/domain/%d/dnssec", domainID), nil)
+// GetDnssecFlags - Get DNSSEC flags
+func (r *DnsManageResource) GetDnssecFlags(domainId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/domain/%d/dnssec/flags", domainId), nil)
 }
 
-func (r *DnsManageResource) CreateDnssecRecord(domainID int, data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/domain/%d/dnssec", domainID), data)
+// GetDnssec - Get DNSSEC records
+func (r *DnsManageResource) GetDnssec(domainId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/domain/%d/dnssec", domainId), nil)
 }
 
-func (r *DnsManageResource) DeleteDnssecRecord(domainID int, recordID int) (map[string]interface{}, error) {
-	return r.client.Delete(fmt.Sprintf("/api/domain/%d/dnssec/%d", domainID, recordID))
+// CreateDnssec - Create DNSSEC record
+func (r *DnsManageResource) CreateDnssec(domainId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/domain/%d/dnssec", domainId), data)
 }
 
-func (r *DnsManageResource) RegisterNameserver(domainID int, hostname string, ips []string) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/domain/%d/registerns", domainID), map[string]interface{}{
-		"hostname": hostname,
-		"ips":      ips,
-	})
+// DeleteDnssec - Delete DNSSEC record
+func (r *DnsManageResource) DeleteDnssec(domainId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Delete(fmt.Sprintf("/api/domain/%d/dnssec", domainId))
 }

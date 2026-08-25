@@ -1,18 +1,23 @@
 package hitechcloud
 
-// NotificationsResource handles notification endpoints
+import "fmt"
+
+// NotificationsResource handles Notifications endpoints
 type NotificationsResource struct {
 	client *HTTPClient
 }
 
-func (r *NotificationsResource) List(params map[string]string) (map[string]interface{}, error) {
+// List - List notifications
+func (r *NotificationsResource) List(params map[string]string )(map[string]interface{}, error) {
 	return r.client.Get("/api/notifications", params)
 }
 
-func (r *NotificationsResource) GetPreferences() (map[string]interface{}, error) {
-	return r.client.Get("/api/notifications/preferences", nil)
+// GetNew - Get new notifications
+func (r *NotificationsResource) GetNew()(map[string]interface{}, error) {
+	return r.client.Get("/api/notifications/new", nil)
 }
 
-func (r *NotificationsResource) UpdatePreferences(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Put("/api/notifications/preferences", data)
+// Acknowledge - Acknowledge notification
+func (r *NotificationsResource) Acknowledge(notificationId int )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/notifications/%d/ack", notificationId), nil)
 }

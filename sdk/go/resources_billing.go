@@ -2,31 +2,37 @@ package hitechcloud
 
 import "fmt"
 
-// BillingResource handles billing endpoints
+// BillingResource handles Billing endpoints
 type BillingResource struct {
 	client *HTTPClient
 }
 
-func (r *BillingResource) GetBalance() (map[string]interface{}, error) {
-	return r.client.Get("/api/billing/balance", nil)
+// GetBalance - Get balance
+func (r *BillingResource) GetBalance()(map[string]interface{}, error) {
+	return r.client.Get("/api/balance", nil)
 }
 
-func (r *BillingResource) ListInvoices(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/billing/invoices", params)
+// ListInvoices - List invoices
+func (r *BillingResource) ListInvoices(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/invoice", params)
 }
 
-func (r *BillingResource) GetInvoice(invoiceID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/billing/invoices/%d", invoiceID), nil)
+// GetInvoice - Get invoice
+func (r *BillingResource) GetInvoice(invoiceId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/invoice/%d", invoiceId), nil)
 }
 
-func (r *BillingResource) ApplyCredit(amount float64) (map[string]interface{}, error) {
-	return r.client.Post("/api/billing/credit", map[string]float64{"amount": amount})
+// ApplyCredit - Apply credit
+func (r *BillingResource) ApplyCredit(invoiceId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/invoice/%d/credit", invoiceId), data)
 }
 
-func (r *BillingResource) GetPaymentMethods() (map[string]interface{}, error) {
-	return r.client.Get("/api/billing/methods", nil)
+// ListPayments - List payments
+func (r *BillingResource) ListPayments(params map[string]string )(map[string]interface{}, error) {
+	return r.client.Get("/api/payment", params)
 }
 
-func (r *BillingResource) GetPaymentFees() (map[string]interface{}, error) {
-	return r.client.Get("/api/billing/fees", nil)
+// GetPaymentFees - Get payment fees
+func (r *BillingResource) GetPaymentFees()(map[string]interface{}, error) {
+	return r.client.Get("/api/payment/fees", nil)
 }

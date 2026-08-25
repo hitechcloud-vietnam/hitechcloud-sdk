@@ -2,31 +2,37 @@ package hitechcloud
 
 import "fmt"
 
-// CloudGpuResource handles Cloud GPU endpoints
+// CloudGpuResource handles CloudGpu endpoints
 type CloudGpuResource struct {
 	client *HTTPClient
 }
 
-func (r *CloudGpuResource) List(params map[string]string) (map[string]interface{}, error) {
-	return r.client.Get("/api/cloudgpu", params)
+// Reboot - Reboot VM
+func (r *CloudGpuResource) Reboot(serviceId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/service/%d/vms/reboot", serviceId), data)
 }
 
-func (r *CloudGpuResource) Get(gpuID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/cloudgpu/%d", gpuID), nil)
+// Stop - Stop VM
+func (r *CloudGpuResource) Stop(serviceId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/service/%d/vms/stop", serviceId), data)
 }
 
-func (r *CloudGpuResource) Start(gpuID int) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/cloudgpu/%d/start", gpuID), nil)
+// Start - Start VM
+func (r *CloudGpuResource) Start(serviceId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Put(fmt.Sprintf("/api/service/%d/vms/start", serviceId), data)
 }
 
-func (r *CloudGpuResource) Stop(gpuID int) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/cloudgpu/%d/stop", gpuID), nil)
+// GetFirewall - Get firewall rules
+func (r *CloudGpuResource) GetFirewall(serviceId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/service/%d/vms/firewall", serviceId), nil)
 }
 
-func (r *CloudGpuResource) Restart(gpuID int) (map[string]interface{}, error) {
-	return r.client.Post(fmt.Sprintf("/api/cloudgpu/%d/restart", gpuID), nil)
+// CreateFirewallRule - Create firewall rule
+func (r *CloudGpuResource) CreateFirewallRule(serviceId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/service/%d/vms/firewall", serviceId), data)
 }
 
-func (r *CloudGpuResource) GetConsole(gpuID int) (map[string]interface{}, error) {
-	return r.client.Get(fmt.Sprintf("/api/cloudgpu/%d/console", gpuID), nil)
+// DeleteFirewallRule - Delete firewall rule
+func (r *CloudGpuResource) DeleteFirewallRule(serviceId int, position int )(map[string]interface{}, error) {
+	return r.client.Delete(fmt.Sprintf("/api/service/%d/vms/firewall/%d", serviceId, position))
 }

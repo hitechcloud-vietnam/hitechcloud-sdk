@@ -2,31 +2,37 @@ package hitechcloud
 
 import "fmt"
 
-// CartResource handles cart endpoints
+// CartResource handles Cart endpoints
 type CartResource struct {
 	client *HTTPClient
 }
 
-func (r *CartResource) Get() (map[string]interface{}, error) {
-	return r.client.Get("/api/cart", nil)
+// ListCategories - List categories
+func (r *CartResource) ListCategories()(map[string]interface{}, error) {
+	return r.client.Get("/api/category", nil)
 }
 
-func (r *CartResource) Add(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post("/api/cart", data)
+// ListProducts - List products
+func (r *CartResource) ListProducts(categoryId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/category/%d/product", categoryId), nil)
 }
 
-func (r *CartResource) Remove(itemID int) (map[string]interface{}, error) {
-	return r.client.Delete(fmt.Sprintf("/api/cart/%d", itemID))
+// GetProduct - Get product
+func (r *CartResource) GetProduct(productId int )(map[string]interface{}, error) {
+	return r.client.Get(fmt.Sprintf("/api/order/%d", productId), nil)
 }
 
-func (r *CartResource) ApplyPromo(code string) (map[string]interface{}, error) {
-	return r.client.Post("/api/cart/promo", map[string]string{"code": code})
+// ConfigureProduct - Configure product
+func (r *CartResource) ConfigureProduct(productId int, data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post(fmt.Sprintf("/api/order/%d", productId), data)
 }
 
-func (r *CartResource) Checkout(data map[string]interface{}) (map[string]interface{}, error) {
-	return r.client.Post("/api/cart/checkout", data)
+// Checkout - Checkout
+func (r *CartResource) Checkout(data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post("/api/order", data)
 }
 
-func (r *CartResource) GetPaymentMethods() (map[string]interface{}, error) {
-	return r.client.Get("/api/cart/payment_methods", nil)
+// GetQuote - Get quote
+func (r *CartResource) GetQuote(data map[string]interface{} )(map[string]interface{}, error) {
+	return r.client.Post("/api/quote", data)
 }
