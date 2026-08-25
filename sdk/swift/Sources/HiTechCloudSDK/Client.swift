@@ -1,0 +1,85 @@
+import Foundation
+
+public class Client {
+    private let httpClient: HTTPClient
+    public let affiliate: AffiliateResource
+    public let affiliatesAdvanced: AffiliatesAdvancedResource
+    public let aiFactory: AiFactoryResource
+    public let auth: AuthResource
+    public let bareMetal: BareMetalResource
+    public let billing: BillingResource
+    public let cart: CartResource
+    public let cephS3: CephS3Resource
+    public let cloudGpu: CloudGpuResource
+    public let cloudInstance: CloudInstanceResource
+    public let cloudService: CloudServiceResource
+    public let cloudVm: CloudVmResource
+    public let collocation: CollocationResource
+    public let contacts: ContactsResource
+    public let dns: DnsResource
+    public let dnsManage: DnsManageResource
+    public let domains: DomainsResource
+    public let emailMfaV2: EmailMfaV2Resource
+    public let hosting: HostingResource
+    public let ipam: IpamResource
+    public let locationV2: LocationV2Resource
+    public let networkServices: NetworkServicesResource
+    public let notifications: NotificationsResource
+    public let partner: PartnerResource
+    public let passkeyV2: PasskeyV2Resource
+    public let pmg: PmgResource
+    public let proxmox: ProxmoxResource
+    public let proxmoxBackup: ProxmoxBackupResource
+    public let serviceStatus: ServiceStatusResource
+    public let services: ServicesResource
+    public let ssl: SSLResource
+    public let support: SupportResource
+    public let urlShortener: UrlShortenerResource
+    public let users: UsersResource
+    public let vcloudstack: VCloudStackResource
+    public let virtualizor: VirtualizorResource
+    public let vneidekyc: VNeIdeKycResource
+    public let willExpired: WillExpiredResource
+
+    public init(baseUrl: String = "https://api.hitechcloud.vn", token: String? = nil, timeout: TimeInterval = 30, maxRetries: Int = 3) {
+        self.httpClient = HTTPClient(baseUrl: baseUrl, token: token, timeout: timeout, maxRetries: maxRetries)
+        self.affiliate = AffiliateResource(httpClient: httpClient)
+        self.affiliatesAdvanced = AffiliatesAdvancedResource(httpClient: httpClient)
+        self.aiFactory = AiFactoryResource(httpClient: httpClient)
+        self.auth = AuthResource(httpClient: httpClient)
+        self.bareMetal = BareMetalResource(httpClient: httpClient)
+        self.billing = BillingResource(httpClient: httpClient)
+        self.cart = CartResource(httpClient: httpClient)
+        self.cephS3 = CephS3Resource(httpClient: httpClient)
+        self.cloudGpu = CloudGpuResource(httpClient: httpClient)
+        self.cloudInstance = CloudInstanceResource(httpClient: httpClient)
+        self.cloudService = CloudServiceResource(httpClient: httpClient)
+        self.cloudVm = CloudVmResource(httpClient: httpClient)
+        self.collocation = CollocationResource(httpClient: httpClient)
+        self.contacts = ContactsResource(httpClient: httpClient)
+        self.dns = DnsResource(httpClient: httpClient)
+        self.dnsManage = DnsManageResource(httpClient: httpClient)
+        self.domains = DomainsResource(httpClient: httpClient)
+        self.emailMfaV2 = EmailMfaV2Resource(httpClient: httpClient)
+        self.hosting = HostingResource(httpClient: httpClient)
+        self.ipam = IpamResource(httpClient: httpClient)
+        self.locationV2 = LocationV2Resource(httpClient: httpClient)
+        self.networkServices = NetworkServicesResource(httpClient: httpClient)
+        self.notifications = NotificationsResource(httpClient: httpClient)
+        self.partner = PartnerResource(httpClient: httpClient)
+        self.passkeyV2 = PasskeyV2Resource(httpClient: httpClient)
+        self.pmg = PmgResource(httpClient: httpClient)
+        self.proxmox = ProxmoxResource(httpClient: httpClient)
+        self.proxmoxBackup = ProxmoxBackupResource(httpClient: httpClient)
+        self.serviceStatus = ServiceStatusResource(httpClient: httpClient)
+        self.services = ServicesResource(httpClient: httpClient)
+        self.ssl = SSLResource(httpClient: httpClient)
+        self.support = SupportResource(httpClient: httpClient)
+        self.urlShortener = UrlShortenerResource(httpClient: httpClient)
+        self.users = UsersResource(httpClient: httpClient)
+        self.vcloudstack = VCloudStackResource(httpClient: httpClient)
+        self.virtualizor = VirtualizorResource(httpClient: httpClient)
+        self.vneidekyc = VNeIdeKycResource(httpClient: httpClient)
+        self.willExpired = WillExpiredResource(httpClient: httpClient)
+    }
+}

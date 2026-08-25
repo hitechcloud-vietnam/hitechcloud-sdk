@@ -4,19 +4,19 @@ const { BaseResource } = require("./base");
 
 class SupportResource extends BaseResource {
   async listTickets(params = {}) {
-    return this._http.get("$/api/tickets");
+    return this._http.get("/api/tickets");
   }
 
   async createTicket(data) {
-    return this._http.post("$/api/tickets", data);
+    return this._http.post("/api/tickets", data);
   }
 
   async getTicket(ticketNumber) {
-    return this._http.get("$/api/tickets/{number}");
+    return this._http.get("/api/tickets/{number}");
   }
 
   async replyTicket(ticketNumber, data) {
-    return this._http.post("$/api/tickets/{number}", data);
+    return this._http.post("/api/tickets/{number}", data);
   }
 
   async getAttachment(file) {
@@ -24,35 +24,35 @@ class SupportResource extends BaseResource {
   }
 
   async openTicket(ticketNumber) {
-    return this._http.put("$/api/tickets/{number}/open");
+    return this._http.put("/api/tickets/{number}/open");
   }
 
   async closeTicket(ticketNumber) {
-    return this._http.put("$/api/tickets/{number}/close");
+    return this._http.put("/api/tickets/{number}/close");
   }
 
   async getDepartments() {
-    return this._http.get("$/api/ticket/departments");
+    return this._http.get("/api/ticket/departments");
   }
 
   async listNews(params = {}) {
-    return this._http.get("$/api/news");
+    return this._http.get("/api/news");
   }
 
   async getNews(newsId) {
-    return this._http.get("$/api/news/{news_id}");
+    return this._http.get("/api/news/{news_id}");
   }
 
   async listKnowledgebase(params = {}) {
-    return this._http.get("$/api/knowledgebase");
+    return this._http.get("/api/knowledgebase");
   }
 
   async getKnowledgebaseCategory(categoryId) {
-    return this._http.get("$/api/knowledgebase/{category_id}");
+    return this._http.get("/api/knowledgebase/{category_id}");
   }
 
   async getKnowledgebaseArticle(articleId) {
-    return this._http.get("$/api/knowledgebase/article/{article_id}");
+    return this._http.get("/api/knowledgebase/article/{article_id}");
   }
 
 }

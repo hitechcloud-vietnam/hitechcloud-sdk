@@ -4,7 +4,7 @@ const { BaseResource } = require("./base");
 
 class LocationV2Resource extends BaseResource {
   async listCountries() {
-    return this._http.get("$/api/location_v2/countries");
+    return this._http.get("/api/location_v2/countries");
   }
 
   async listStates(code) {
@@ -12,7 +12,7 @@ class LocationV2Resource extends BaseResource {
   }
 
   async listCities(stateId) {
-    return this._http.get("$/api/location_v2/state/{id}/city");
+    return this._http.get("/api/location_v2/state/{id}/city");
   }
 
   async getCity(name) {

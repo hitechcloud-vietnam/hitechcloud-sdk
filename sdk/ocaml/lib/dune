@@ -1,0 +1,5 @@
+(library
+ (name hitechcloud_sdk)
+ (public_name hitechcloud_sdk)
+ (libraries cohttp cohttp-lwt-unix lwt yojson uri)
+ (modules http_client affiliate affiliates_advanced ai_factory auth bare_metal billing cart ceph_s3 cloud_gpu cloud_instance cloud_service cloud_vm collocation contacts dns dns_manage domains email_mfa_v2 hosting ipam location_v2 network_services notifications partner passkey_v2 pmg proxmox proxmox_backup service_status services ssl support url_shortener users vcloudstack virtualizor vneidekyc will_expired client))

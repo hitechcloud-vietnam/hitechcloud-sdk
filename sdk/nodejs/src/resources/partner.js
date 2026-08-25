@@ -4,55 +4,55 @@ const { BaseResource } = require("./base");
 
 class PartnerResource extends BaseResource {
   async getPartnerInfo() {
-    return this._http.get("$/api/partner");
+    return this._http.get("/api/partner");
   }
 
   async apply(data) {
-    return this._http.post("$/api/partner/apply", data);
+    return this._http.post("/api/partner/apply", data);
   }
 
   async listTiers() {
-    return this._http.get("$/api/partner/tiers");
+    return this._http.get("/api/partner/tiers");
   }
 
   async getPricing() {
-    return this._http.get("$/api/partner/pricing");
+    return this._http.get("/api/partner/pricing");
   }
 
   async listCustomers() {
-    return this._http.get("$/api/partner/customers");
+    return this._http.get("/api/partner/customers");
   }
 
   async getEarnings() {
-    return this._http.get("$/api/partner/earnings");
+    return this._http.get("/api/partner/earnings");
   }
 
   async getWallet() {
-    return this._http.get("$/api/partner/wallet");
+    return this._http.get("/api/partner/wallet");
   }
 
   async listPayouts() {
-    return this._http.get("$/api/partner/payouts");
+    return this._http.get("/api/partner/payouts");
   }
 
   async requestPayout(data) {
-    return this._http.post("$/api/partner/payouts", data);
+    return this._http.post("/api/partner/payouts", data);
   }
 
   async listLeads() {
-    return this._http.get("$/api/partner/leads");
+    return this._http.get("/api/partner/leads");
   }
 
   async createLead(data) {
-    return this._http.post("$/api/partner/leads", data);
+    return this._http.post("/api/partner/leads", data);
   }
 
   async getReferral() {
-    return this._http.get("$/api/partner/referral");
+    return this._http.get("/api/partner/referral");
   }
 
   async getRates() {
-    return this._http.get("$/api/partner/rates");
+    return this._http.get("/api/partner/rates");
   }
 
 }

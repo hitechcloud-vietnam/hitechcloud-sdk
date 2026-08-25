@@ -4,7 +4,7 @@ const { BaseResource } = require("./base");
 
 class CollocationResource extends BaseResource {
   async listPdu(serviceId) {
-    return this._http.get("$/api/service/{id}/pdu");
+    return this._http.get("/api/service/{id}/pdu");
   }
 
   async getPduPort(serviceId, port) {

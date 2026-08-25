@@ -4,19 +4,19 @@ const { BaseResource } = require("./base");
 
 class CloudServiceResource extends BaseResource {
   async shutdown(serviceId, vmId) {
-    return this._http.post("$/api/service/{id}/vms/{vmid}/shutdown");
+    return this._http.post("/api/service/{id}/vms/{vmid}/shutdown");
   }
 
   async reset(serviceId, vmId) {
-    return this._http.post("$/api/service/{id}/vms/{vmid}/reset");
+    return this._http.post("/api/service/{id}/vms/{vmid}/reset");
   }
 
   async setHostname(serviceId, vmId, data) {
-    return this._http.post("$/api/service/{id}/vms/{vmid}/hostname", data);
+    return this._http.post("/api/service/{id}/vms/{vmid}/hostname", data);
   }
 
   async getIpPool(serviceId, vmId) {
-    return this._http.get("$/api/service/{id}/vms/{vmid}/ippool");
+    return this._http.get("/api/service/{id}/vms/{vmid}/ippool");
   }
 
   async assignIp(serviceId, vmId, pool) {
@@ -24,11 +24,11 @@ class CloudServiceResource extends BaseResource {
   }
 
   async listNetworks(serviceId) {
-    return this._http.get("$/api/service/{id}/networks");
+    return this._http.get("/api/service/{id}/networks");
   }
 
   async createInterface(serviceId, vmId, data) {
-    return this._http.post("$/api/service/{id}/vms/{vmid}/interfaces", data);
+    return this._http.post("/api/service/{id}/vms/{vmid}/interfaces", data);
   }
 
   async getInterface(serviceId, vmId, iface) {

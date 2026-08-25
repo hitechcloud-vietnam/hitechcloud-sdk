@@ -4,27 +4,27 @@ const { BaseResource } = require("./base");
 
 class UrlShortenerResource extends BaseResource {
   async shorten(data) {
-    return this._http.post("$/api/url-shortener/shorten", data);
+    return this._http.post("/api/url-shortener/shorten", data);
   }
 
   async listLinks() {
-    return this._http.get("$/api/url-shortener/links");
+    return this._http.get("/api/url-shortener/links");
   }
 
   async getConfig() {
-    return this._http.get("$/api/url-shortener/config");
+    return this._http.get("/api/url-shortener/config");
   }
 
   async getStats() {
-    return this._http.get("$/api/url-shortener/stats");
+    return this._http.get("/api/url-shortener/stats");
   }
 
   async getLink(linkId) {
-    return this._http.get("$/api/url-shortener/links/{id}");
+    return this._http.get("/api/url-shortener/links/{id}");
   }
 
   async deleteLink(linkId) {
-    return this._http.delete("$/api/url-shortener/links/{id}");
+    return this._http.delete("/api/url-shortener/links/{id}");
   }
 
 }

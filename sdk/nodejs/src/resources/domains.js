@@ -8,11 +8,11 @@ class DomainsResource extends BaseResource {
   }
 
   async list(params = {}) {
-    return this._http.get("$/api/domain");
+    return this._http.get("/api/domain");
   }
 
   async get(domainId) {
-    return this._http.get("$/api/domain/{id}");
+    return this._http.get("/api/domain/{id}");
   }
 
   async getByName(name) {
@@ -20,47 +20,47 @@ class DomainsResource extends BaseResource {
   }
 
   async getNameservers(domainId) {
-    return this._http.get("$/api/domain/{id}/ns");
+    return this._http.get("/api/domain/{id}/ns");
   }
 
   async setNameservers(domainId, data) {
-    return this._http.put("$/api/domain/{id}/ns", data);
+    return this._http.put("/api/domain/{id}/ns", data);
   }
 
   async getEppCode(domainId) {
-    return this._http.get("$/api/domain/{id}/epp");
+    return this._http.get("/api/domain/{id}/epp");
   }
 
   async sync(domainId) {
-    return this._http.get("$/api/domain/{id}/sync");
+    return this._http.get("/api/domain/{id}/sync");
   }
 
   async getRegLock(domainId) {
-    return this._http.get("$/api/domain/{id}/reglock");
+    return this._http.get("/api/domain/{id}/reglock");
   }
 
   async setRegLock(domainId, data) {
-    return this._http.put("$/api/domain/{id}/reglock", data);
+    return this._http.put("/api/domain/{id}/reglock", data);
   }
 
   async toggleIdProtection(domainId, data) {
-    return this._http.put("$/api/domain/{id}/idprotection", data);
+    return this._http.put("/api/domain/{id}/idprotection", data);
   }
 
   async getContacts(domainId) {
-    return this._http.get("$/api/domain/{id}/contact");
+    return this._http.get("/api/domain/{id}/contact");
   }
 
   async setContacts(domainId, data) {
-    return this._http.put("$/api/domain/{id}/contact", data);
+    return this._http.put("/api/domain/{id}/contact", data);
   }
 
   async getEmailForwarding(domainId) {
-    return this._http.get("$/api/domain/{id}/email/forwarding");
+    return this._http.get("/api/domain/{id}/email/forwarding");
   }
 
   async setEmailForwarding(domainId, data) {
-    return this._http.put("$/api/domain/{id}/email/forwarding", data);
+    return this._http.put("/api/domain/{id}/email/forwarding", data);
   }
 
   async checkAvailability(domain) {
@@ -68,19 +68,19 @@ class DomainsResource extends BaseResource {
   }
 
   async listOrders(params = {}) {
-    return this._http.get("$/api/domain/order");
+    return this._http.get("/api/domain/order");
   }
 
   async createOrder(data) {
-    return this._http.post("$/api/domain/order", data);
+    return this._http.post("/api/domain/order", data);
   }
 
   async getOrderForm(orderId) {
-    return this._http.get("$/api/domain/order/{id}/form");
+    return this._http.get("/api/domain/order/{id}/form");
   }
 
   async renew(domainId, data) {
-    return this._http.post("$/api/domain/{id}/renew", data);
+    return this._http.post("/api/domain/{id}/renew", data);
   }
 
   async whoisLookup(domain) {
@@ -88,7 +88,7 @@ class DomainsResource extends BaseResource {
   }
 
   async getDocuments(domainId) {
-    return this._http.get("$/api/domain/{id}/documents");
+    return this._http.get("/api/domain/{id}/documents");
   }
 
 }

@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="HttpClient.fs" />
+    <Compile Include="affiliate.fs" />
+    <Compile Include="affiliates_advanced.fs" />
+    <Compile Include="ai_factory.fs" />
+    <Compile Include="auth.fs" />
+    <Compile Include="bare_metal.fs" />
+    <Compile Include="billing.fs" />
+    <Compile Include="cart.fs" />
+    <Compile Include="ceph_s3.fs" />
+    <Compile Include="cloud_gpu.fs" />
+    <Compile Include="cloud_instance.fs" />
+    <Compile Include="cloud_service.fs" />
+    <Compile Include="cloud_vm.fs" />
+    <Compile Include="collocation.fs" />
+    <Compile Include="contacts.fs" />
+    <Compile Include="dns.fs" />
+    <Compile Include="dns_manage.fs" />
+    <Compile Include="domains.fs" />
+    <Compile Include="email_mfa_v2.fs" />
+    <Compile Include="hosting.fs" />
+    <Compile Include="ipam.fs" />
+    <Compile Include="location_v2.fs" />
+    <Compile Include="network_services.fs" />
+    <Compile Include="notifications.fs" />
+    <Compile Include="partner.fs" />
+    <Compile Include="passkey_v2.fs" />
+    <Compile Include="pmg.fs" />
+    <Compile Include="proxmox.fs" />
+    <Compile Include="proxmox_backup.fs" />
+    <Compile Include="service_status.fs" />
+    <Compile Include="services.fs" />
+    <Compile Include="ssl.fs" />
+    <Compile Include="support.fs" />
+    <Compile Include="url_shortener.fs" />
+    <Compile Include="users.fs" />
+    <Compile Include="vcloudstack.fs" />
+    <Compile Include="virtualizor.fs" />
+    <Compile Include="vneidekyc.fs" />
+    <Compile Include="will_expired.fs" />
+    <Compile Include="Client.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.SystemTextJson" Version="0.17" />
+  </ItemGroup>
+</Project>
