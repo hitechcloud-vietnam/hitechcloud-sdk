@@ -1,15 +1,42 @@
 package vn.hitechcloud.sdk.resources;
 
-import vn.hitechcloud.sdk.HttpClient;
 import java.util.Map;
+import vn.hitechcloud.sdk.HttpClient;
 
 public class Ssl extends BaseResource {
-    public Ssl(HttpClient httpClient) { super(httpClient); }
 
-    public Map<String, Object> list(Map<String, String> params) { return httpClient.get("/api/ssl", params); }
-    public Map<String, Object> get(int sslId) { return httpClient.get("/api/ssl/" + sslId, null); }
-    public Map<String, Object> download(int sslId) { return httpClient.get("/api/ssl/" + sslId + "/download", null); }
-    public Map<String, Object> listAvailable(Map<String, String> params) { return httpClient.get("/api/ssl/available", params); }
-    public Map<String, Object> order(Map<String, Object> data) { return httpClient.post("/api/ssl/order", data); }
-    public Map<String, Object> listServerSoftware() { return httpClient.get("/api/ssl/serversoftware", null); }
+    public Ssl(HttpClient http) {
+        super(http);
+    }
+
+    /** List certificates */
+    public Map<String, Object> certificates() throws Exception {
+        return http.get("/api/certificate");
+    }
+
+    /** Get certificate */
+    public Map<String, Object> certificate(int id) throws Exception {
+        return http.get(String.format("/api/certificate/%id", id));
+    }
+
+    /** Get certificate CRT */
+    public Map<String, Object> certificateCrt(int id) throws Exception {
+        return http.get(String.format("/api/certificate/%id/crt", id));
+    }
+
+    /** List SSL orders */
+    public Map<String, Object> orders() throws Exception {
+        return http.get("/api/certificate/order");
+    }
+
+    /** Create SSL order */
+    public Map<String, Object> createOrder(Map<String, Object> data) throws Exception {
+        return http.post("/api/certificate/order", data);
+    }
+
+    /** Get order software */
+    public Map<String, Object> orderSoftware(int productId) throws Exception {
+        return http.get(String.format("/api/certificate/order/%productId/software", productId));
+    }
+
 }

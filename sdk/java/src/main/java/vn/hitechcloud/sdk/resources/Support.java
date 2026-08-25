@@ -1,35 +1,77 @@
 package vn.hitechcloud.sdk.resources;
 
-import vn.hitechcloud.sdk.HttpClient;
-import java.util.HashMap;
 import java.util.Map;
+import vn.hitechcloud.sdk.HttpClient;
 
 public class Support extends BaseResource {
-    public Support(HttpClient httpClient) { super(httpClient); }
 
-    public Map<String, Object> listDepartments() { return httpClient.get("/api/support/departments", null); }
-    public Map<String, Object> listTickets(Map<String, String> params) { return httpClient.get("/api/support/tickets", params); }
-    public Map<String, Object> getTicket(int ticketId) { return httpClient.get("/api/support/tickets/" + ticketId, null); }
-    public Map<String, Object> createTicket(Map<String, Object> data) { return httpClient.post("/api/support/tickets", data); }
-
-    public Map<String, Object> replyTicket(int ticketId, String message) {
-        Map<String, String> body = new HashMap<>();
-        body.put("message", message);
-        return httpClient.post("/api/support/tickets/" + ticketId, body);
+    public Support(HttpClient http) {
+        super(http);
     }
 
-    public Map<String, Object> closeTicket(int ticketId) { return httpClient.post("/api/support/tickets/" + ticketId + "/close", null); }
-    public Map<String, Object> listNews(Map<String, String> params) { return httpClient.get("/api/support/news", params); }
-    public Map<String, Object> getNews(int newsId) { return httpClient.get("/api/support/news/" + newsId, null); }
-    public Map<String, Object> listKbCategories() { return httpClient.get("/api/support/kb/categories", null); }
-    public Map<String, Object> listKbArticles(Map<String, String> params) { return httpClient.get("/api/support/kb/articles", params); }
-    public Map<String, Object> getKbArticle(int articleId) { return httpClient.get("/api/support/kb/articles/" + articleId, null); }
-
-    public Map<String, Object> searchKb(String query) {
-        Map<String, String> params = new HashMap<>();
-        params.put("query", query);
-        return httpClient.get("/api/support/kb/search", params);
+    /** List tickets */
+    public Map<String, Object> tickets() throws Exception {
+        return http.get("/api/tickets");
     }
 
-    public Map<String, Object> listAnnouncements(Map<String, String> params) { return httpClient.get("/api/support/announcements", params); }
+    /** Create ticket */
+    public Map<String, Object> createTicket(Map<String, Object> data) throws Exception {
+        return http.post("/api/tickets", data);
+    }
+
+    /** Get ticket */
+    public Map<String, Object> ticket(String number) throws Exception {
+        return http.get(String.format("/api/tickets/%number", number));
+    }
+
+    /** Reply to ticket */
+    public Map<String, Object> replyTicket(String number, Map<String, Object> data) throws Exception {
+        return http.post(String.format("/api/tickets/%number", number), data);
+    }
+
+    /** Get attachment */
+    public Map<String, Object> ticketAttachment(String file) throws Exception {
+        return http.get(String.format("/api/ticket/attachment/%file", file));
+    }
+
+    /** Open ticket */
+    public Map<String, Object> openTicket(String number) throws Exception {
+        return http.put(String.format("/api/tickets/%number/open", number), null);
+    }
+
+    /** Close ticket */
+    public Map<String, Object> closeTicket(String number) throws Exception {
+        return http.put(String.format("/api/tickets/%number/close", number), null);
+    }
+
+    /** Get departments */
+    public Map<String, Object> departments() throws Exception {
+        return http.get("/api/ticket/departments");
+    }
+
+    /** List news */
+    public Map<String, Object> news() throws Exception {
+        return http.get("/api/news");
+    }
+
+    /** Get news item */
+    public Map<String, Object> newsItem(int newsId) throws Exception {
+        return http.get(String.format("/api/news/%newsId", newsId));
+    }
+
+    /** List knowledgebase */
+    public Map<String, Object> knowledgebase() throws Exception {
+        return http.get("/api/knowledgebase");
+    }
+
+    /** Get KB category */
+    public Map<String, Object> knowledgebaseCategory(int categoryId) throws Exception {
+        return http.get(String.format("/api/knowledgebase/%categoryId", categoryId));
+    }
+
+    /** Get KB article */
+    public Map<String, Object> knowledgebaseArticle(int articleId) throws Exception {
+        return http.get(String.format("/api/knowledgebase/article/%articleId", articleId));
+    }
+
 }

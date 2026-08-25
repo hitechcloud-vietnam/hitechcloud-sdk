@@ -1,12 +1,27 @@
 package vn.hitechcloud.sdk.resources;
 
-import vn.hitechcloud.sdk.HttpClient;
 import java.util.Map;
+import vn.hitechcloud.sdk.HttpClient;
 
 public class Notifications extends BaseResource {
-    public Notifications(HttpClient httpClient) { super(httpClient); }
 
-    public Map<String, Object> list(Map<String, String> params) { return httpClient.get("/api/notifications", params); }
-    public Map<String, Object> getPreferences() { return httpClient.get("/api/notifications/preferences", null); }
-    public Map<String, Object> updatePreferences(Map<String, Object> data) { return httpClient.put("/api/notifications/preferences", data); }
+    public Notifications(HttpClient http) {
+        super(http);
+    }
+
+    /** List notifications */
+    public Map<String, Object> notifications() throws Exception {
+        return http.get("/api/notifications");
+    }
+
+    /** Get new notifications */
+    public Map<String, Object> newNotifications() throws Exception {
+        return http.get("/api/notifications/new");
+    }
+
+    /** Acknowledge notification */
+    public Map<String, Object> acknowledge(int id) throws Exception {
+        return http.put(String.format("/api/notifications/%id/ack", id), null);
+    }
+
 }

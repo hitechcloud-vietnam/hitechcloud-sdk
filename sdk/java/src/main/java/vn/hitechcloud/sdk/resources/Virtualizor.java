@@ -1,13 +1,32 @@
 package vn.hitechcloud.sdk.resources;
 
-import vn.hitechcloud.sdk.HttpClient;
 import java.util.Map;
+import vn.hitechcloud.sdk.HttpClient;
 
 public class Virtualizor extends BaseResource {
-    public Virtualizor(HttpClient httpClient) { super(httpClient); }
 
-    public Map<String, Object> list(Map<String, String> params) { return httpClient.get("/api/virtualizor", params); }
-    public Map<String, Object> get(int vpsId) { return httpClient.get("/api/virtualizor/" + vpsId, null); }
-    public Map<String, Object> start(int vpsId) { return httpClient.post("/api/virtualizor/" + vpsId + "/start", null); }
-    public Map<String, Object> stop(int vpsId) { return httpClient.post("/api/virtualizor/" + vpsId + "/stop", null); }
+    public Virtualizor(HttpClient http) {
+        super(http);
+    }
+
+    /** Suspend VM */
+    public Map<String, Object> suspend(int id, int vmid) throws Exception {
+        return http.post(String.format("/api/service/%id/vms/%vmid/suspend", id, vmid), null);
+    }
+
+    /** Unsuspend VM */
+    public Map<String, Object> unsuspend(int id, int vmid) throws Exception {
+        return http.post(String.format("/api/service/%id/vms/%vmid/unsuspend", id, vmid), null);
+    }
+
+    /** Get rebuild options */
+    public Map<String, Object> rebuild(int id, int vmid) throws Exception {
+        return http.get(String.format("/api/service/%id/vms/%vmid/rebuild", id, vmid));
+    }
+
+    /** Add SSH key */
+    public Map<String, Object> addSshKey(int id, int vmid, Map<String, Object> data) throws Exception {
+        return http.post(String.format("/api/service/%id/vms/%vmid/addsshkey", id, vmid), data);
+    }
+
 }

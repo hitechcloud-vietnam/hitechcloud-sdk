@@ -1,15 +1,42 @@
 package vn.hitechcloud.sdk.resources;
 
-import vn.hitechcloud.sdk.HttpClient;
 import java.util.Map;
+import vn.hitechcloud.sdk.HttpClient;
 
 public class Affiliate extends BaseResource {
-    public Affiliate(HttpClient httpClient) { super(httpClient); }
 
-    public Map<String, Object> getDetails() { return httpClient.get("/api/affiliate", null); }
-    public Map<String, Object> getBalance() { return httpClient.get("/api/affiliate/balance", null); }
-    public Map<String, Object> getPayout() { return httpClient.get("/api/affiliate/payout", null); }
-    public Map<String, Object> updatePayout(Map<String, Object> data) { return httpClient.put("/api/affiliate/payout", data); }
-    public Map<String, Object> listReferrals(Map<String, String> params) { return httpClient.get("/api/affiliate/referrals", params); }
-    public Map<String, Object> listTransactions(Map<String, String> params) { return httpClient.get("/api/affiliate/transactions", params); }
+    public Affiliate(HttpClient http) {
+        super(http);
+    }
+
+    /** Get affiliate summary */
+    public Map<String, Object> summary() throws Exception {
+        return http.get("/api/affiliates/summary");
+    }
+
+    /** Get campaigns */
+    public Map<String, Object> campaigns() throws Exception {
+        return http.get("/api/affiliates/campaigns");
+    }
+
+    /** Get commissions */
+    public Map<String, Object> commissions() throws Exception {
+        return http.get("/api/affiliates/commissions");
+    }
+
+    /** Get payouts */
+    public Map<String, Object> payouts() throws Exception {
+        return http.get("/api/affiliates/payouts");
+    }
+
+    /** Get vouchers */
+    public Map<String, Object> vouchers() throws Exception {
+        return http.get("/api/affiliates/vouchers");
+    }
+
+    /** Get commission plans */
+    public Map<String, Object> commissionPlans() throws Exception {
+        return http.get("/api/affiliates/commissionplans");
+    }
+
 }

@@ -1,22 +1,42 @@
 package vn.hitechcloud.sdk.resources;
 
-import vn.hitechcloud.sdk.HttpClient;
-import java.util.HashMap;
 import java.util.Map;
+import vn.hitechcloud.sdk.HttpClient;
 
 public class Cart extends BaseResource {
-    public Cart(HttpClient httpClient) { super(httpClient); }
 
-    public Map<String, Object> get() { return httpClient.get("/api/cart", null); }
-    public Map<String, Object> add(Map<String, Object> data) { return httpClient.post("/api/cart", data); }
-    public Map<String, Object> remove(int itemId) { return httpClient.delete("/api/cart/" + itemId); }
-
-    public Map<String, Object> applyPromo(String code) {
-        Map<String, String> body = new HashMap<>();
-        body.put("code", code);
-        return httpClient.post("/api/cart/promo", body);
+    public Cart(HttpClient http) {
+        super(http);
     }
 
-    public Map<String, Object> checkout(Map<String, Object> data) { return httpClient.post("/api/cart/checkout", data); }
-    public Map<String, Object> getPaymentMethods() { return httpClient.get("/api/cart/payment_methods", null); }
+    /** List categories */
+    public Map<String, Object> categories() throws Exception {
+        return http.get("/api/category");
+    }
+
+    /** List products */
+    public Map<String, Object> products(int categoryId) throws Exception {
+        return http.get(String.format("/api/category/%categoryId/product", categoryId));
+    }
+
+    /** Get order info */
+    public Map<String, Object> orderInfo(int productId) throws Exception {
+        return http.get(String.format("/api/order/%productId", productId));
+    }
+
+    /** Create order */
+    public Map<String, Object> createOrder(int productId, Map<String, Object> data) throws Exception {
+        return http.post(String.format("/api/order/%productId", productId), data);
+    }
+
+    /** Checkout */
+    public Map<String, Object> checkout(Map<String, Object> data) throws Exception {
+        return http.post("/api/order", data);
+    }
+
+    /** Get quote */
+    public Map<String, Object> quote(Map<String, Object> data) throws Exception {
+        return http.post("/api/quote", data);
+    }
+
 }
