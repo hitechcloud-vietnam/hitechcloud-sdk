@@ -40,3 +40,8 @@ sdk/csharp/bin/
 sdk/csharp/obj/
 sdk/csharp/Tests/bin/
 sdk/csharp/Tests/obj/
+target/
+bin/
+obj/
+*.dll
+*.class

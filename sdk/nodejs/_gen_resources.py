@@ -2,7 +2,7 @@
 """Generate Node.js SDK resource files for all 38 API groups"""
 import os
 
-SDK_DIR = "/www/wwwroot/apitool2.hitechcloud.vn/hitechcloud-sdk/sdk/nodejs/src/resources"
+SDK_DIR = "/home/portal-tools.hitechcloud.vn/hitechcloud-sdk/sdk/nodejs/src/resources"
 
 # All resources: (filename, className, camelName, methods)
 # Each method: (name, httpMethod, path, params_desc)
